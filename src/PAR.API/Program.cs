@@ -1,13 +1,16 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using PAR.Application.Abstractions;
+using PAR.API.Endpoints;
 using PAR.Domain.Entities;
 using PAR.Infrastructure;
 using PAR.Persistence;
 using PAR.Persistence.Context;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
+builder.Host.UseSerilog((context, config) => { config.ReadFrom.Configuration(context.Configuration); });
 
 builder.Services.AddIdentityCore<ApplicationUser>(
         options =>
@@ -58,14 +61,15 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+loggerFactory.AddSerilog();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-var service = app.Services.GetRequiredService<IClock>();
-
-app.MapGet("/", () => $"Hello World!\n{service.Current()}");
+app.MapApiEndpoints();
 
 app.Run();
