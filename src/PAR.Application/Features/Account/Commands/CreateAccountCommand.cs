@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using PAR.Application.Configuration;
 using PAR.Application.Exceptions;
 using PAR.Contracts.Requests;
 using PAR.Domain.Entities;
@@ -15,15 +17,16 @@ public record CreateAccountCommand : IRequest<string>
 
 public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, string>
 {
-    private const string DefaultRoleName = "User";
-
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly ParSettings _parSettings;
 
-    public CreateAccountHandler(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+    public CreateAccountHandler(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,
+        IOptions<ParSettings> parSettings)
     {
         _userManager = userManager;
         _roleManager = roleManager;
+        _parSettings = parSettings.Value;
     }
 
     public async Task<string> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
@@ -50,12 +53,12 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, string
 
         if (!request.AddToDefaultRole) return newUser.Id;
 
-        var role = await _roleManager.FindByNameAsync(DefaultRoleName);
+        var role = await _roleManager.FindByNameAsync(_parSettings.DefaultUserRole);
         if (role == null)
-            throw new InternalApplicationError(nameof(CreateAccountCommand), $"Failed to find role: {DefaultRoleName}");
+            throw new InternalApplicationError(nameof(CreateAccountCommand),
+                $"Failed to find role: {_parSettings.DefaultUserRole}");
 
-        await _userManager.AddToRoleAsync(newUser, DefaultRoleName);
-
+        await _userManager.AddToRoleAsync(newUser, _parSettings.DefaultUserRole);
 
         return newUser.Id;
     }
