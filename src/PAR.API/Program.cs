@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PAR.API.Endpoints;
+using PAR.API.Middlewares;
 using PAR.Domain.Entities;
 using PAR.Infrastructure;
 using PAR.Persistence;
@@ -71,5 +72,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapApiEndpoints();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.Run();
