@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using PAR.API.Constants;
+﻿using PAR.API.Constants;
 using PAR.Application.Abstractions;
-using ILogger = Serilog.ILogger;
+using Serilog;
 
 namespace PAR.API.Endpoints.Account;
 
