@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using FluentValidation;
+using PAR.Application.Exceptions;
 using PAR.Contracts.Responses;
 using Serilog;
 
@@ -35,6 +36,12 @@ public class ExceptionMiddleware
 
         switch (exception)
         {
+            case BadRequestException:
+                statusCode = StatusCodes.Status400BadRequest;
+                message = JsonSerializer.Serialize(new {error = exception.Message});
+                _logger.Error("{Message}", message);
+                break;
+            
             case ValidationException validationException:
                 statusCode = StatusCodes.Status400BadRequest;
                 var validationFailureResponse = new ValidationFailureResponse

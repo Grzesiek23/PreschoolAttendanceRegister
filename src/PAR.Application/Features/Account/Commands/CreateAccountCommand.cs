@@ -1,0 +1,62 @@
+﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
+using PAR.Application.Exceptions;
+using PAR.Contracts.Requests;
+using PAR.Domain.Entities;
+
+namespace PAR.Application.Features.Account.Commands;
+
+public record CreateAccountCommand : IRequest<string>
+{
+    public CreateAccountRequest CreateAccountRequest { get; init; } = null!;
+    public bool ConfirmPassword { get; init; }
+    public bool AddToDefaultRole { get; init; }
+}
+
+public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, string>
+{
+    private const string DefaultRoleName = "User";
+
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
+
+    public CreateAccountHandler(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+    {
+        _userManager = userManager;
+        _roleManager = roleManager;
+    }
+
+    public async Task<string> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+    {
+        var newUser = new ApplicationUser
+        {
+            UserName = request.CreateAccountRequest.Email,
+            Email = request.CreateAccountRequest.Email,
+            FirstName = request.CreateAccountRequest.FirstName,
+            LastName = request.CreateAccountRequest.LastName
+        };
+
+        if (request.ConfirmPassword)
+            newUser.EmailConfirmed = true;
+
+        var result = await _userManager.CreateAsync(newUser, request.CreateAccountRequest.Password);
+
+        if (!result.Succeeded)
+        {
+            var errors = result.Errors.Select(x => x.Description);
+            throw new InternalApplicationError(nameof(CreateAccountCommand),
+                $"Failed to create user: {string.Join(",", errors)}");
+        }
+
+        if (!request.AddToDefaultRole) return newUser.Id;
+
+        var role = await _roleManager.FindByNameAsync(DefaultRoleName);
+        if (role == null)
+            throw new InternalApplicationError(nameof(CreateAccountCommand), $"Failed to find role: {DefaultRoleName}");
+
+        await _userManager.AddToRoleAsync(newUser, DefaultRoleName);
+
+
+        return newUser.Id;
+    }
+}

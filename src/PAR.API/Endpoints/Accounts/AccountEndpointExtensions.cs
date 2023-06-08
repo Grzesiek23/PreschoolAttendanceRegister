@@ -1,10 +1,10 @@
-﻿namespace PAR.API.Endpoints.Account;
+﻿namespace PAR.API.Endpoints.Accounts;
 
-public static class AccountEndpointsExtensions
+public static class AccountEndpointExtensions
 {
     public static IEndpointRouteBuilder MapAccountEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapLoginEndpoint();
+        app.MapCreateAccount();
         return app;
     }
 }

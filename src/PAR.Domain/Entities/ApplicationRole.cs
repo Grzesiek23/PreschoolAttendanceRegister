@@ -2,7 +2,7 @@
 
 namespace PAR.Domain.Entities;
 
-public class ApplicationRole : IdentityRole<string>
+public class ApplicationRole : IdentityRole
 {
     public virtual ICollection<ApplicationUserRole> UserRoles { get; set; } = new List<ApplicationUserRole>();
 }

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PAR.API.Endpoints;
 using PAR.API.Middlewares;
+using PAR.Application;
 using PAR.Domain.Entities;
 using PAR.Infrastructure;
 using PAR.Persistence;
@@ -28,7 +29,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(
     .AddEntityFrameworkStores<ParDbContext>();
 
 builder.Services.AddInfrastructure(configuration);
-
+builder.Services.AddApplication();
 builder.Services.AddPersistence(configuration);
 
 builder.Services.AddEndpointsApiExplorer();
