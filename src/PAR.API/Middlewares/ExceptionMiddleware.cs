@@ -36,6 +36,12 @@ public class ExceptionMiddleware
 
         switch (exception)
         {
+            case NotFoundException:
+                statusCode = StatusCodes.Status404NotFound;
+                message = JsonSerializer.Serialize(new {error = exception.Message});
+                _logger.Debug("{Message}", message);
+                break;
+            
             case BadRequestException:
                 statusCode = StatusCodes.Status400BadRequest;
                 message = JsonSerializer.Serialize(new {error = exception.Message});
@@ -56,6 +62,13 @@ public class ExceptionMiddleware
                 _logger.Error(message);
                 break;
 
+            case InternalApplicationError:
+                statusCode = StatusCodes.Status500InternalServerError;
+                message = "Internal Server Error";
+                var logMessage = JsonSerializer.Serialize(new {error = exception.Message});
+                _logger.Error(exception, "{Message}", logMessage);
+                break;
+            
             default:
                 statusCode = StatusCodes.Status500InternalServerError;
                 message = JsonSerializer.Serialize(new {error = "Internal Server Error."});
