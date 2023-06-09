@@ -19,5 +19,7 @@ public static class ApiEndpoints
     {
         public const string Get = $"{ApiBase}/roles/{{id}}";
         public const string Create = $"{ApiBase}/roles";
+        public const string Update = $"{ApiBase}/roles/{{id}}";
+        public const string Delete = $"{ApiBase}/roles/{{id}}";
     }
 }

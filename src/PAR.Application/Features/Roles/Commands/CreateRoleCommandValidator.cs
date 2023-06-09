@@ -9,6 +9,7 @@ public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
     public CreateRoleCommandValidator(RoleManager<ApplicationRole> roleManager)
     {
         RuleFor(x => x.CreateRoleRequest.Name)
+            .NotEmpty().WithMessage("Name is required")
             .Length(3, 256).WithMessage("Name must be between 3 and 256 characters")
             .MustAsync(async (name, _) =>
             {

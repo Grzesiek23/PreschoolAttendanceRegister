@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using PAR.API.Constants;
 using PAR.Application.Features.Roles.Commands;
 using PAR.Contracts.Requests;
@@ -14,7 +13,7 @@ public static class CreateRoleEndpoint
     public static IEndpointRouteBuilder MapCreateRoleEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapPost(ApiEndpoints.Roles.Create,
-                async (CreateRoleRequest request, [FromServices] IMediator mediator,
+                async (CreateRoleRequest request, IMediator mediator,
                     CancellationToken cancellationToken) =>
                 {
                     var id = await mediator.Send(new CreateRoleCommand {CreateRoleRequest = request},
@@ -22,7 +21,9 @@ public static class CreateRoleEndpoint
                     return TypedResults.CreatedAtRoute(GetRoleEndpoint.Name, new {id});
                 }).WithName(Name)
             .Produces<string>(StatusCodes.Status201Created)
-            .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest);
+            .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status500InternalServerError);
+        
         return app;
     }
 }
