@@ -13,7 +13,7 @@ public static class GetUserEndpoint
 
     public static IEndpointRouteBuilder MapGetUserEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiEndpoints.Users.Get, async ([FromRoute] string id, IMediator mediator, CancellationToken cancellationToken) =>
+        app.MapGet(ApiEndpoints.Users.Get, async ([FromRoute] int id, IMediator mediator, CancellationToken cancellationToken) =>
                 {
                     var result = await mediator.Send(new GetUserByIdQuery {Id = id}, cancellationToken);
                     return ResultHelper.CheckAndReturnResult(result);

@@ -2,7 +2,7 @@
 
 public class AuthDto
 {
-    public string Id { get; init; } = null!;
+    public int Id { get; init; }
     public string Email { get; init; } = null!;
     public string Token { get; init; } = null!;
 }

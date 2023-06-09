@@ -7,8 +7,8 @@ namespace PAR.Application.Features.Users.Commands;
 
 public record AssignUserToRoleCommand : IRequest<Unit>
 {
-    public string? UserId { get; init; }
-    public string? RoleId { get; init; }
+    public int? UserId { get; init; }
+    public int? RoleId { get; init; }
 }
 
 public class AssignUserToRoleHandler : IRequestHandler<AssignUserToRoleCommand, Unit>
@@ -24,11 +24,11 @@ public class AssignUserToRoleHandler : IRequestHandler<AssignUserToRoleCommand, 
 
     public async Task<Unit> Handle(AssignUserToRoleCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByIdAsync(request.UserId!);
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
         if (user == null)
             throw new NotFoundException(nameof(AssignUserToRoleCommand), nameof(ApplicationUser), request.UserId);
         
-        var role = await _roleManager.FindByIdAsync(request.RoleId!);
+        var role = await _roleManager.FindByIdAsync(request.RoleId.ToString());
         if (role == null)
             throw new NotFoundException(nameof(AssignUserToRoleCommand), nameof(ApplicationRole), request.RoleId);
 

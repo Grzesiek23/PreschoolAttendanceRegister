@@ -13,7 +13,7 @@ public static class GetSchoolYearEndpoint
 
     public static IEndpointRouteBuilder MapGetSchoolYearEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiEndpoints.SchoolYears.Get, async (string id, IMediator mediator, CancellationToken cancellationToken) =>
+        app.MapGet(ApiEndpoints.SchoolYears.Get, async (int id, IMediator mediator, CancellationToken cancellationToken) =>
                 {
                     var result = await mediator.Send(new GetSchoolYearByIdQuery {Id = id}, cancellationToken);
                     return ResultHelper.CheckAndReturnResult(result);

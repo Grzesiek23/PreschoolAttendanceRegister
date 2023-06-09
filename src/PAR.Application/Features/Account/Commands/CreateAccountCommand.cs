@@ -8,14 +8,14 @@ using PAR.Domain.Entities;
 
 namespace PAR.Application.Features.Account.Commands;
 
-public record CreateAccountCommand : IRequest<string>
+public record CreateAccountCommand : IRequest<int>
 {
     public CreateAccountRequest CreateAccountRequest { get; init; } = null!;
     public bool ConfirmPassword { get; init; }
     public bool AddToDefaultRole { get; init; }
 }
 
-public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, string>
+public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, int>
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
@@ -29,7 +29,7 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, string
         _parSettings = parSettings.Value;
     }
 
-    public async Task<string> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
         var newUser = new ApplicationUser
         {

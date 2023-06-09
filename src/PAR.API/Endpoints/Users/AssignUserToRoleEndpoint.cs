@@ -12,7 +12,7 @@ public static class AssignUserToRoleEndpoint
 
     public static IEndpointRouteBuilder MapAssignUserToRoleEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapPut(ApiEndpoints.Users.AssignUserToRole, async ([FromRoute] string userId, [FromRoute] string roleId, IMediator mediator, CancellationToken cancellationToken) =>
+        app.MapPut(ApiEndpoints.Users.AssignUserToRole, async ([FromRoute] int userId, [FromRoute] int roleId, IMediator mediator, CancellationToken cancellationToken) =>
                 {
                     await mediator.Send(new AssignUserToRoleCommand {UserId = userId, RoleId = roleId}, cancellationToken);
                     return Results.NoContent();

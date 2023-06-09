@@ -6,12 +6,12 @@ using PAR.Domain.Entities;
 
 namespace PAR.Application.Features.Roles.Commands;
 
-public record CreateRoleCommand : IRequest<string>
+public record CreateRoleCommand : IRequest<int>
 {
     public CreateRoleRequest CreateRoleRequest { get; init; } = null!;
 }
 
-public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, string>
+public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, int>
 {
     private readonly RoleManager<ApplicationRole> _roleManager;
 
@@ -20,7 +20,7 @@ public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, string>
         _roleManager = roleManager;
     }
 
-    public async Task<string> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         var newRole = new ApplicationRole
         {

@@ -7,7 +7,7 @@ namespace PAR.Application.Features.Users.Queries;
 
 public record GetUserByIdQuery : IRequest<UserDto?>
 {
-    public string Id { get; init; } = null!;
+    public int Id { get; init; }
 }
 
 public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserDto?>
@@ -21,7 +21,7 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserDto?>
 
     public async Task<UserDto?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByIdAsync(request.Id);
+        var user = await _userManager.FindByIdAsync(request.Id.ToString());
 
         if (user == null)
             return null;

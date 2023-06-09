@@ -13,7 +13,7 @@ public static class GetRoleEndpoint
 
     public static IEndpointRouteBuilder MapGetRoleEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiEndpoints.Roles.Get, async (string id, IMediator mediator, CancellationToken cancellationToken) =>
+        app.MapGet(ApiEndpoints.Roles.Get, async (int id, IMediator mediator, CancellationToken cancellationToken) =>
                 {
                     var result = await mediator.Send(new GetRoleByIdQuery {Id = id}, cancellationToken);
                     return ResultHelper.CheckAndReturnResult(result);

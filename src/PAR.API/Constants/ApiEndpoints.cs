@@ -19,26 +19,26 @@ public static class ApiEndpoints
     public static class Users
     {
         public const string Tag = "User";
-        public const string Get = $"{ApiBase}/users/{{id}}";
-        public const string AssignUserToRole = $"{ApiBase}/users/{{userId}}/assign-to-role/{{roleId}}";
-        public const string RemoveUserFromRole = $"{ApiBase}/users/{{userId}}/remove-from-role/{{roleId}}";
+        public const string Get = $"{ApiBase}/users/{{id:int}}";
+        public const string AssignUserToRole = $"{ApiBase}/users/{{userId:int}}/assign-to-role/{{roleId:int}}";
+        public const string RemoveUserFromRole = $"{ApiBase}/users/{{userId:int}}/remove-from-role/{{roleId:int}}";
     }
     
     public static class Roles
     {
         public const string Tag = "Role";
-        public const string Get = $"{ApiBase}/roles/{{id}}";
+        public const string Get = $"{ApiBase}/roles/{{id:int}}";
         public const string Create = $"{ApiBase}/roles";
-        public const string Update = $"{ApiBase}/roles/{{id}}";
-        public const string Delete = $"{ApiBase}/roles/{{id}}";
+        public const string Update = $"{ApiBase}/roles/{{id:int}}";
+        public const string Delete = $"{ApiBase}/roles/{{id:int}}";
     }
 
     public static class SchoolYears
     {
         public const string Tag = "SchoolYear";
         public const string Create = $"{ApiBase}/school-years";
-        public const string Get = $"{ApiBase}/school-years/{{id}}";
-        public const string Update = $"{ApiBase}/school-years/{{id}}";
-        public const string Delete = $"{ApiBase}/school-years/{{id}}";
+        public const string Get = $"{ApiBase}/school-years/{{id:int}}";
+        public const string Update = $"{ApiBase}/school-years/{{id:int}}";
+        public const string Delete = $"{ApiBase}/school-years/{{id:int}}";
     }
 }

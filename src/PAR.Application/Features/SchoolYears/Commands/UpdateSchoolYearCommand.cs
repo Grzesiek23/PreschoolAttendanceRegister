@@ -7,13 +7,13 @@ using PAR.Domain.Entities;
 
 namespace PAR.Application.Features.SchoolYears.Commands;
 
-public record UpdateSchoolYearCommand : IRequest<string>
+public record UpdateSchoolYearCommand : IRequest<int>
 {
-    public string Id { get; init; } = null!;
+    public int Id { get; init; }
     public UpdateSchoolYearRequest UpdateSchoolYearRequest { get; init; } = null!;
 }
 
-public class UpdatechoolYearHandler : IRequestHandler<UpdateSchoolYearCommand, string>
+public class UpdatechoolYearHandler : IRequestHandler<UpdateSchoolYearCommand, int>
 {
     private readonly IParDbContext _dbContext;
 
@@ -22,9 +22,9 @@ public class UpdatechoolYearHandler : IRequestHandler<UpdateSchoolYearCommand, s
         _dbContext = dbContext;
     }
 
-    public async Task<string> Handle(UpdateSchoolYearCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(UpdateSchoolYearCommand request, CancellationToken cancellationToken)
     {
-        var schoolYear = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == Guid.Parse(request.Id), cancellationToken);
+        var schoolYear = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         
         if (schoolYear == null) 
             throw new NotFoundException(nameof(UpdateSchoolYearCommand), nameof(SchoolYear), request.Id);
@@ -35,6 +35,6 @@ public class UpdatechoolYearHandler : IRequestHandler<UpdateSchoolYearCommand, s
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return schoolYear.Id.ToString();
+        return schoolYear.Id;
     }
 }

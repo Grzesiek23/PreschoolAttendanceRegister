@@ -13,7 +13,7 @@ public static class UpdateSchoolYearEndpoint
     public static IEndpointRouteBuilder MapUpdateSchoolYearEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapPut(ApiEndpoints.SchoolYears.Update,
-                async (string id, UpdateSchoolYearRequest request, IMediator mediator,
+                async (int id, UpdateSchoolYearRequest request, IMediator mediator,
                     CancellationToken cancellationToken) =>
                 {
                     await mediator.Send(new UpdateSchoolYearCommand {Id = id, UpdateSchoolYearRequest = request},

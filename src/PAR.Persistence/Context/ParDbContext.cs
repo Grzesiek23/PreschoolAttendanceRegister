@@ -10,8 +10,8 @@ using PAR.Domain.Entities;
 
 namespace PAR.Persistence.Context;
 
-public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, ApplicationUserRole,
-    IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>, IParDbContext
+public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int, IdentityUserClaim<int>, ApplicationUserRole,
+    IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, IParDbContext
 {
     public DbSet<Group> Groups { get; set; }
     public DbSet<SchoolYear> SchoolYears { get; set; }
@@ -28,12 +28,12 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         
-        modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
+        modelBuilder.Entity<IdentityUserClaim<int>>(entity =>
         {
             entity.ToTable("ApplicationUserClaims");
         });
 
-        modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+        modelBuilder.Entity<IdentityUserLogin<int>>(entity =>
         {
             entity.ToTable("ApplicationUserLogins");
             entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
@@ -41,12 +41,12 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
             entity.Property(e => e.ProviderKey).HasMaxLength(128);
         });
         
-        modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
+        modelBuilder.Entity<IdentityRoleClaim<int>>(entity =>
         {
             entity.ToTable("ApplicationRoleClaims");
         });
         
-        modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+        modelBuilder.Entity<IdentityUserToken<int>>(entity =>
         {
             entity.ToTable("ApplicationUserTokens");
             entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });

@@ -7,7 +7,7 @@ namespace PAR.Application.Features.SchoolYears.Queries;
 
 public record GetSchoolYearByIdQuery : IRequest<SchoolYearDto?>
 {
-    public string Id { get; init; } = null!;
+    public int Id { get; init; }
 }
 
 public class GetSchoolYearByIdHandler : IRequestHandler<GetSchoolYearByIdQuery, SchoolYearDto?>
@@ -21,13 +21,13 @@ public class GetSchoolYearByIdHandler : IRequestHandler<GetSchoolYearByIdQuery, 
 
     public async Task<SchoolYearDto?> Handle(GetSchoolYearByIdQuery request, CancellationToken cancellationToken)
     {
-       var entity = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == Guid.Parse(request.Id), cancellationToken);
+       var entity = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
        
          if (entity == null) return null;
 
          return new SchoolYearDto
          {
-             Id = entity.Id.ToString(),
+             Id = entity.Id,
              StartDate = entity.StartDate,
              EndDate = entity.EndDate,
              IsCurrent = entity.IsCurrent

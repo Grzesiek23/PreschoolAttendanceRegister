@@ -7,7 +7,7 @@ namespace PAR.Application.Features.Roles.Queries;
 
 public record GetRoleByIdQuery : IRequest<RoleDto?>
 {
-    public string Id { get; init; } = null!;
+    public int Id { get; init; }
 }
 
 public class GetRoleByIdHandler : IRequestHandler<GetRoleByIdQuery, RoleDto?>
@@ -21,7 +21,7 @@ public class GetRoleByIdHandler : IRequestHandler<GetRoleByIdQuery, RoleDto?>
 
     public async Task<RoleDto?> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
     {
-        var role = await _roleManager.FindByIdAsync(request.Id);
+        var role = await _roleManager.FindByIdAsync(request.Id.ToString());
         
         if (role == null)
             return null;
