@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +18,10 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public DbSet<Preschooler> Preschoolers { get; set; }
 
-    public ParDbContext(DbContextOptions options) : base(options)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public ParDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
+        _httpContextAccessor = httpContextAccessor;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -50,24 +54,28 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         });
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        var changedByFullName = _httpContextAccessor.HttpContext?.User?.FindFirstValue("fullName");
+        var currentUserEmail = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        var changedBy = string.IsNullOrEmpty($"{changedByFullName} {currentUserEmail}") ? "System" : $"{changedByFullName} {currentUserEmail}";
+
         foreach (var entry in ChangeTracker.Entries<BaseEntity>())
         {
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = "TODO";
+                    entry.Entity.CreatedBy = changedBy;
                     entry.Entity.CreatedOn = DateTime.Now;
                     entry.Entity.IsActive = true;
                     break;
                 case EntityState.Modified:
-                    entry.Entity.LastModifiedBy = "TODO";
+                    entry.Entity.LastModifiedBy = changedBy;
                     entry.Entity.LastModifiedOn = DateTime.Now;
                     break;
                 case EntityState.Deleted:
                     entry.State = EntityState.Modified;
-                    entry.Entity.InactivatedBy = "TODO";
+                    entry.Entity.InactivatedBy = changedBy;
                     entry.Entity.InactivatedOn = DateTime.Now;
                     entry.Entity.IsActive = false;
                     break;

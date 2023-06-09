@@ -28,6 +28,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ParDbContext>();
 
+builder.Services.AddAuthorization();
+
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
 builder.Services.AddPersistence(configuration);
@@ -71,6 +73,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapApiEndpoints();
 

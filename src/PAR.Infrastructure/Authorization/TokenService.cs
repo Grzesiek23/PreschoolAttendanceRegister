@@ -32,6 +32,7 @@ public class TokenService : ITokenService
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new(JwtRegisteredClaimNames.Sub, user.Email),
             new(JwtRegisteredClaimNames.Email, user.Email),
+            new("fullName", string.IsNullOrWhiteSpace(user.FullName) ? user.Email : user.FullName),
             new("userId", user.Id),
         };
 

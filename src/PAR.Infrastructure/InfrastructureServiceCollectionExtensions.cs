@@ -41,6 +41,7 @@ public static class InfrastructureServiceCollectionExtensions
                 };
             });
         services.AddScoped<ITokenService, TokenService>();
+        services.AddHttpContextAccessor();
 
         return services;
     }
