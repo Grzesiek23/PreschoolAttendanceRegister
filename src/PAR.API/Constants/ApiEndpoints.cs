@@ -32,4 +32,13 @@ public static class ApiEndpoints
         public const string Update = $"{ApiBase}/roles/{{id}}";
         public const string Delete = $"{ApiBase}/roles/{{id}}";
     }
+
+    public static class SchoolYears
+    {
+        public const string Tag = "SchoolYear";
+        public const string Create = $"{ApiBase}/school-years";
+        public const string Get = $"{ApiBase}/school-years/{{id}}";
+        public const string Update = $"{ApiBase}/school-years/{{id}}";
+        public const string Delete = $"{ApiBase}/school-years/{{id}}";
+    }
 }
