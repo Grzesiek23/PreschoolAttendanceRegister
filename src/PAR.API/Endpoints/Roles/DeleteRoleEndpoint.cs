@@ -12,7 +12,7 @@ public static class DeleteRoleEndpoint
     public static IEndpointRouteBuilder MapDeleteRoleEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapDelete(ApiEndpoints.Roles.Delete,
-                async (string id, IMediator mediator, CancellationToken cancellationToken) =>
+                async (int id, IMediator mediator, CancellationToken cancellationToken) =>
                 {
                     await mediator.Send(new DeleteRoleCommand {Id = id}, cancellationToken);
 

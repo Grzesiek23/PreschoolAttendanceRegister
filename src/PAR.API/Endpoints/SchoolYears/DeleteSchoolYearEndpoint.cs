@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using PAR.API.Constants;
 using PAR.Application.Features.Roles.Commands;
+using PAR.Application.Features.SchoolYears.Commands;
 using PAR.Contracts.Responses;
 
 namespace PAR.API.Endpoints.SchoolYears;
@@ -12,9 +13,9 @@ public static class DeleteSchoolYearEndpoint
     public static IEndpointRouteBuilder MapDeleteSchoolYearEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapDelete(ApiEndpoints.SchoolYears.Delete,
-                async (string id, IMediator mediator, CancellationToken cancellationToken) =>
+                async (int id, IMediator mediator, CancellationToken cancellationToken) =>
                 {
-                    await mediator.Send(new DeleteRoleCommand {Id = id}, cancellationToken);
+                    await mediator.Send(new DeleteSchoolYearCommand {Id = id}, cancellationToken);
 
                     return Results.NoContent();
                 })

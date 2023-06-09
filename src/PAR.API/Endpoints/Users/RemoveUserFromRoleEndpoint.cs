@@ -12,7 +12,7 @@ public static class RemoveUserFromRoleEndpoint
 
     public static IEndpointRouteBuilder MapRemoveUserFromRoleEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapPut(ApiEndpoints.Users.RemoveUserFromRole, async ([FromRoute] string userId, [FromRoute] string roleId, IMediator mediator, CancellationToken cancellationToken) =>
+        app.MapPut(ApiEndpoints.Users.RemoveUserFromRole, async ([FromRoute] int userId, [FromRoute] int roleId, IMediator mediator, CancellationToken cancellationToken) =>
                 {
                     await mediator.Send(new RemoveUserFromRoleCommand {UserId = userId, RoleId = roleId}, cancellationToken);
                     return Results.NoContent();

@@ -3,4 +3,5 @@
 public class ParSettings
 {
     public string DefaultUserRole { get; set; }
+    public bool SoftDelete { get; set; }
 }

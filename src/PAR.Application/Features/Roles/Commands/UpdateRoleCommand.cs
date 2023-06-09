@@ -8,6 +8,7 @@ namespace PAR.Application.Features.Roles.Commands;
 
 public record UpdateRoleCommand : IRequest<Unit>
 {
+    public int Id { get; init; }
     public RoleRequest RoleRequest { get; init; } = null!;
 }
 
@@ -22,6 +23,9 @@ public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand, Unit>
 
     public async Task<Unit> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
+        if(request.Id != request.RoleRequest.Id)
+            throw new BadRequestException(nameof(UpdateRoleCommand), $"Id in request body ({request.RoleRequest.Id}) does not match id in request path ({request.Id})");
+
         var role = await _roleManager.FindByIdAsync(request.RoleRequest.Id.ToString());
         if (role == null)
             throw new NotFoundException(nameof(UpdateRoleCommand), nameof(ApplicationRole), request.RoleRequest.Id!);

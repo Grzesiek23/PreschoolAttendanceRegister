@@ -7,8 +7,8 @@ namespace PAR.Application.Features.Users.Commands;
 
 public record RemoveUserFromRoleCommand : IRequest<Unit>
 {
-    public string? UserId { get; init; }
-    public string? RoleId { get; init; }
+    public int? UserId { get; init; }
+    public int? RoleId { get; init; }
 }
 
 public class RemoveUserFromRoleHandler : IRequestHandler<RemoveUserFromRoleCommand, Unit>
@@ -24,11 +24,11 @@ public class RemoveUserFromRoleHandler : IRequestHandler<RemoveUserFromRoleComma
 
     public async Task<Unit> Handle(RemoveUserFromRoleCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByIdAsync(request.UserId);
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
         if (user == null)
             throw new NotFoundException(nameof(RemoveUserFromRoleCommand), nameof(ApplicationUser), request.UserId);
 
-        var role = await _roleManager.FindByIdAsync(request.RoleId);
+        var role = await _roleManager.FindByIdAsync(request.RoleId.ToString());
         if (role == null)
             throw new NotFoundException(nameof(RemoveUserFromRoleCommand), nameof(ApplicationRole), request.RoleId);
 

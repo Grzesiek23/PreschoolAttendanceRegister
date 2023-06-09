@@ -28,7 +28,7 @@ public class UpdateSchoolYearHandler : IRequestHandler<UpdateSchoolYearCommand, 
         if(request.Id != request.SchoolYearRequest.Id)
             throw new BadRequestException(nameof(UpdateSchoolYearCommand), $"Id in request body ({request.SchoolYearRequest.Id}) does not match id in request path ({request.Id})");
                 
-        var schoolYear = await _dbContext.SchoolYears.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var schoolYear = await _dbContext.SchoolYears.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
         
         if (schoolYear == null) 
             throw new NotFoundException(nameof(UpdateSchoolYearCommand), nameof(SchoolYear), request.Id);

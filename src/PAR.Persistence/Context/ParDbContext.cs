@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using PAR.Application.Configuration;
 using PAR.Application.DataAccessLayer;
 using PAR.Domain.Common;
 using PAR.Domain.Entities;
@@ -19,9 +21,11 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<Preschooler> Preschoolers { get; set; }
 
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public ParDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
+    private readonly ParSettings _parSettings;
+    public ParDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor, IOptions<ParSettings> parSettings) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
+        _parSettings = parSettings.Value;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -74,10 +78,13 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
                     entry.Entity.LastModifiedOn = DateTime.Now;
                     break;
                 case EntityState.Deleted:
-                    entry.State = EntityState.Modified;
-                    entry.Entity.InactivatedBy = changedBy;
-                    entry.Entity.InactivatedOn = DateTime.Now;
-                    entry.Entity.IsActive = false;
+                    if(_parSettings.SoftDelete)
+                    {
+                        entry.State = EntityState.Modified;
+                        entry.Entity.InactivatedBy = changedBy;
+                        entry.Entity.InactivatedOn = DateTime.Now;
+                        entry.Entity.IsActive = false;
+                    }
                     break;
             }
         }

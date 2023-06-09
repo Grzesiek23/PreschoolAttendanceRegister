@@ -7,7 +7,7 @@ namespace PAR.Application.Features.Roles.Commands;
 
 public record DeleteRoleCommand : IRequest<Unit>
 {
-    public string? Id { get; init; }
+    public int? Id { get; init; }
 }
 
 public class DeleteRoleHandler : IRequestHandler<DeleteRoleCommand, Unit>
@@ -21,7 +21,7 @@ public class DeleteRoleHandler : IRequestHandler<DeleteRoleCommand, Unit>
 
     public async Task<Unit> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = await _roleManager.FindByIdAsync(request.Id!);
+        var role = await _roleManager.FindByIdAsync(request.Id.ToString());
         if (role == null)
             throw new NotFoundException(nameof(DeleteRoleCommand), nameof(ApplicationRole), request.Id!);
         

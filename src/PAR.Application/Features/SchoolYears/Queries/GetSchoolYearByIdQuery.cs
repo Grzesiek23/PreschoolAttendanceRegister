@@ -22,7 +22,7 @@ public class GetSchoolYearByIdHandler : IRequestHandler<GetSchoolYearByIdQuery, 
 
     public async Task<SchoolYearDto?> Handle(GetSchoolYearByIdQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var entity = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
 
         return entity?.AsDto();
     }

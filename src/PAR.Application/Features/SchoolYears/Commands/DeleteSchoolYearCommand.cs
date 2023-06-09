@@ -22,12 +22,12 @@ public class DeleteSchoolYearHandler : IRequestHandler<DeleteSchoolYearCommand, 
 
     public async Task<Unit> Handle(DeleteSchoolYearCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var entity = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
         
         if (entity == null)
             throw new NotFoundException(nameof(DeleteSchoolYearCommand), nameof(SchoolYear), request.Id);
         
-        var checkNested = await _dbContext.Groups.AnyAsync(x => x.SchoolYearId == request.Id, cancellationToken);
+        var checkNested = await _dbContext.Groups.AnyAsync(x => x.SchoolYearId == request.Id && x.IsActive, cancellationToken);
         
         if (checkNested)
             throw new InternalApplicationError(nameof(DeleteSchoolYearCommand),
