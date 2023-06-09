@@ -38,8 +38,8 @@ public class ExceptionMiddleware
         {
             case NotFoundException:
                 statusCode = StatusCodes.Status404NotFound;
-                message = JsonSerializer.Serialize(new {error = exception.Message});
-                _logger.Debug("{Message}", message);
+                _logger.Debug(exception.Message);
+                message = "Entity not found.";
                 break;
             
             case BadRequestException:

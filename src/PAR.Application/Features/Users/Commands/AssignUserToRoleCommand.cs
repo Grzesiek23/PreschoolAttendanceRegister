@@ -25,7 +25,12 @@ public class AssignUserToRoleHandler : IRequestHandler<AssignUserToRoleCommand, 
     public async Task<Unit> Handle(AssignUserToRoleCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.UserId!);
+        if (user == null)
+            throw new NotFoundException(nameof(AssignUserToRoleCommand), nameof(ApplicationUser), request.UserId);
+        
         var role = await _roleManager.FindByIdAsync(request.RoleId!);
+        if (role == null)
+            throw new NotFoundException(nameof(AssignUserToRoleCommand), nameof(ApplicationRole), request.RoleId);
 
         var result = await _userManager.AddToRoleAsync(user!, role!.Name!);
 

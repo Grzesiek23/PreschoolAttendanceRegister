@@ -26,11 +26,11 @@ public class RemoveUserFromRoleHandler : IRequestHandler<RemoveUserFromRoleComma
     {
         var user = await _userManager.FindByIdAsync(request.UserId);
         if (user == null)
-            throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+            throw new NotFoundException(nameof(RemoveUserFromRoleCommand), nameof(ApplicationUser), request.UserId);
 
         var role = await _roleManager.FindByIdAsync(request.RoleId);
         if (role == null)
-            throw new NotFoundException(nameof(ApplicationRole), request.RoleId);
+            throw new NotFoundException(nameof(RemoveUserFromRoleCommand), nameof(ApplicationRole), request.RoleId);
 
         var isInRole = await _userManager.IsInRoleAsync(user, role.Name);
         if (!isInRole)

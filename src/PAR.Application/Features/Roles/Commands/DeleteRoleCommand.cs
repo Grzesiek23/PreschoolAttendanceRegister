@@ -22,9 +22,8 @@ public class DeleteRoleHandler : IRequestHandler<DeleteRoleCommand, Unit>
     public async Task<Unit> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
         var role = await _roleManager.FindByIdAsync(request.Id!);
-        
         if (role == null)
-            throw new NotFoundException(nameof(ApplicationRole), request.Id!);
+            throw new NotFoundException(nameof(DeleteRoleCommand), nameof(ApplicationRole), request.Id!);
         
         var result = await _roleManager.DeleteAsync(role);
 

@@ -58,8 +58,13 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, string
             throw new InternalApplicationError(nameof(CreateAccountCommand),
                 $"Failed to find role: {_parSettings.DefaultUserRole}");
 
-        await _userManager.AddToRoleAsync(newUser, _parSettings.DefaultUserRole);
+        var assignResult = await _userManager.AddToRoleAsync(newUser, _parSettings.DefaultUserRole);
 
-        return newUser.Id;
+        if (assignResult.Succeeded) return newUser.Id;
+        {
+            var errors = assignResult.Errors.Select(x => x.Description);
+            throw new InternalApplicationError(nameof(CreateAccountCommand),
+                $"Failed to assign user to role: {string.Join(",", errors)}");
+        }
     }
 }
