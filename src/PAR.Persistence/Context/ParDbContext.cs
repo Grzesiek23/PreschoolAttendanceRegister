@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using PAR.Application.Abstractions;
 using PAR.Application.Configuration;
 using PAR.Application.DataAccessLayer;
 using PAR.Domain.Common;
@@ -22,9 +23,11 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
 
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ParSettings _parSettings;
-    public ParDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor, IOptions<ParSettings> parSettings) : base(options)
+    private readonly IClock _clock;
+    public ParDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor, IOptions<ParSettings> parSettings, IClock clock) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
+        _clock = clock;
         _parSettings = parSettings.Value;
     }
 
@@ -70,19 +73,19 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
             {
                 case EntityState.Added:
                     entry.Entity.CreatedBy = changedBy;
-                    entry.Entity.CreatedOn = DateTime.Now;
+                    entry.Entity.CreatedOn = _clock.Current();
                     entry.Entity.IsActive = true;
                     break;
                 case EntityState.Modified:
                     entry.Entity.LastModifiedBy = changedBy;
-                    entry.Entity.LastModifiedOn = DateTime.Now;
+                    entry.Entity.LastModifiedOn = _clock.Current();
                     break;
                 case EntityState.Deleted:
                     if(_parSettings.SoftDelete)
                     {
                         entry.State = EntityState.Modified;
                         entry.Entity.InactivatedBy = changedBy;
-                        entry.Entity.InactivatedOn = DateTime.Now;
+                        entry.Entity.InactivatedOn = _clock.Current();
                         entry.Entity.IsActive = false;
                     }
                     break;
