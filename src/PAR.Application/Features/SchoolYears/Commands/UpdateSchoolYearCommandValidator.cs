@@ -10,16 +10,16 @@ public class UpdateSchoolYearCommandValidator : AbstractValidator<UpdateSchoolYe
             .NotEmpty()
             .WithMessage("Id is required.");
         
-        RuleFor(x => x.UpdateSchoolYearRequest.StartDate)
+        RuleFor(x => x.SchoolYearRequest.StartDate)
             .NotEmpty()
             .WithMessage("Start date is required.");
         
-        RuleFor(x => x.UpdateSchoolYearRequest.EndDate)
+        RuleFor(x => x.SchoolYearRequest.EndDate)
             .NotEmpty()
             .WithMessage("End date is required.");
         
-        RuleFor(x => x.UpdateSchoolYearRequest.StartDate)
-            .LessThan(x => x.UpdateSchoolYearRequest.EndDate)
+        RuleFor(x => x.SchoolYearRequest.StartDate)
+            .LessThan(x => x.SchoolYearRequest.EndDate)
             .WithMessage("Start date must be less than end date.");
     }
 }

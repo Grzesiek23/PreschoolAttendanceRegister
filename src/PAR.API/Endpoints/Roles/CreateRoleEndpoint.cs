@@ -13,10 +13,10 @@ public static class CreateRoleEndpoint
     public static IEndpointRouteBuilder MapCreateRoleEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapPost(ApiEndpoints.Roles.Create,
-                async (CreateRoleRequest request, IMediator mediator,
+                async (RoleRequest request, IMediator mediator,
                     CancellationToken cancellationToken) =>
                 {
-                    var id = await mediator.Send(new CreateRoleCommand {CreateRoleRequest = request},
+                    var id = await mediator.Send(new CreateRoleCommand {RoleRequest = request},
                         cancellationToken);
                     return TypedResults.CreatedAtRoute(GetRoleEndpoint.Name, new {id});
                 })

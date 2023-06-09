@@ -6,16 +6,16 @@ public class CreateSchoolYearCommandValidator : AbstractValidator<CreateSchoolYe
 {
     public CreateSchoolYearCommandValidator()
     {
-        RuleFor(x => x.CreateSchoolYearRequest.StartDate)
+        RuleFor(x => x.SchoolYearRequest.StartDate)
             .NotEmpty()
             .WithMessage("Start date is required.");
         
-        RuleFor(x => x.CreateSchoolYearRequest.EndDate)
+        RuleFor(x => x.SchoolYearRequest.EndDate)
             .NotEmpty()
             .WithMessage("End date is required.");
         
-        RuleFor(x => x.CreateSchoolYearRequest.StartDate)
-            .LessThan(x => x.CreateSchoolYearRequest.EndDate)
+        RuleFor(x => x.SchoolYearRequest.StartDate)
+            .LessThan(x => x.SchoolYearRequest.EndDate)
             .WithMessage("Start date must be less than end date.");
     }
 }

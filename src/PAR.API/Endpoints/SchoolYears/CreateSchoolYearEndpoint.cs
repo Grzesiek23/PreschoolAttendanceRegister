@@ -14,10 +14,10 @@ public static class CreateSchoolYearEndpoint
     {
         
         app.MapPost(ApiEndpoints.SchoolYears.Create,
-                async (CreateSchoolYearRequest request, IMediator mediator,
+                async (SchoolYearRequest request, IMediator mediator,
                     CancellationToken cancellationToken) =>
                 {
-                    var id = await mediator.Send(new CreateSchoolYearCommand {CreateSchoolYearRequest = request},
+                    var id = await mediator.Send(new CreateSchoolYearCommand {SchoolYearRequest = request},
                         cancellationToken);
                     return TypedResults.CreatedAtRoute(GetSchoolYearEndpoint.Name, new {id});
                 })

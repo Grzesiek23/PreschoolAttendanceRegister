@@ -1,6 +1,7 @@
 ﻿namespace PAR.Contracts.Requests;
 
-public class CreateRoleRequest
+public class RoleRequest
 {
+    public int Id { get; init; }
     public string? Name { get; init; }
 }

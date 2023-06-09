@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PAR.Application.DataAccessLayer;
+using PAR.Application.Mapping;
 using PAR.Contracts.Dtos;
 
 namespace PAR.Application.Features.SchoolYears.Queries;
@@ -21,16 +22,8 @@ public class GetSchoolYearByIdHandler : IRequestHandler<GetSchoolYearByIdQuery, 
 
     public async Task<SchoolYearDto?> Handle(GetSchoolYearByIdQuery request, CancellationToken cancellationToken)
     {
-       var entity = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-       
-         if (entity == null) return null;
+        var entity = await _dbContext.SchoolYears.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-         return new SchoolYearDto
-         {
-             Id = entity.Id,
-             StartDate = entity.StartDate,
-             EndDate = entity.EndDate,
-             IsCurrent = entity.IsCurrent
-         };
+        return entity?.AsDto();
     }
 }

@@ -8,7 +8,7 @@ namespace PAR.Application.Features.Roles.Commands;
 
 public record UpdateRoleCommand : IRequest<Unit>
 {
-    public UpdateRoleRequest UpdateRoleRequest { get; init; } = null!;
+    public RoleRequest RoleRequest { get; init; } = null!;
 }
 
 public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand, Unit>
@@ -22,11 +22,11 @@ public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand, Unit>
 
     public async Task<Unit> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = await _roleManager.FindByIdAsync(request.UpdateRoleRequest.Id!);
+        var role = await _roleManager.FindByIdAsync(request.RoleRequest.Id.ToString());
         if (role == null)
-            throw new NotFoundException(nameof(UpdateRoleCommand), nameof(ApplicationRole), request.UpdateRoleRequest.Id!);
+            throw new NotFoundException(nameof(UpdateRoleCommand), nameof(ApplicationRole), request.RoleRequest.Id!);
 
-        role.Name = request.UpdateRoleRequest.Name;
+        role.Name = request.RoleRequest.Name;
 
         var result = await _roleManager.UpdateAsync(role);
 

@@ -8,7 +8,7 @@ namespace PAR.Application.Features.Roles.Commands;
 
 public record CreateRoleCommand : IRequest<int>
 {
-    public CreateRoleRequest CreateRoleRequest { get; init; } = null!;
+    public RoleRequest RoleRequest { get; init; } = null!;
 }
 
 public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, int>
@@ -24,7 +24,7 @@ public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, int>
     {
         var newRole = new ApplicationRole
         {
-            Name = request.CreateRoleRequest.Name,
+            Name = request.RoleRequest.Name,
         };
 
         var result = await _roleManager.CreateAsync(newRole);

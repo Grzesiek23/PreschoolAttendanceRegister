@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using PAR.Application.DataAccessLayer;
+using PAR.Application.Mapping;
 using PAR.Contracts.Requests;
-using PAR.Domain.Entities;
 
 namespace PAR.Application.Features.SchoolYears.Commands;
 
 public record CreateSchoolYearCommand : IRequest<string>
 {
-    public CreateSchoolYearRequest CreateSchoolYearRequest { get; init; } = null!;
+    public SchoolYearRequest SchoolYearRequest { get; init; } = null!;
 }
 
 public class CreateSchoolYearHandler : IRequestHandler<CreateSchoolYearCommand, string>
@@ -21,16 +21,11 @@ public class CreateSchoolYearHandler : IRequestHandler<CreateSchoolYearCommand, 
 
     public async Task<string> Handle(CreateSchoolYearCommand request, CancellationToken cancellationToken)
     {
-        var schoolYear = new SchoolYear
-        {
-            StartDate = request.CreateSchoolYearRequest.StartDate,
-            EndDate = request.CreateSchoolYearRequest.EndDate,
-            IsCurrent = request.CreateSchoolYearRequest.IsCurrent
-        };
+        var entity = request.SchoolYearRequest.AsEntity();
 
-        await _dbContext.SchoolYears.AddAsync(schoolYear, cancellationToken);
+        await _dbContext.SchoolYears.AddAsync(entity, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
-        return schoolYear.Id.ToString();
+        return entity.Id.ToString();
     }
 }

@@ -13,9 +13,9 @@ public static class UpdateRoleEndpoint
     public static IEndpointRouteBuilder MapUpdateRoleEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapPut(ApiEndpoints.Roles.Update,
-                async (UpdateRoleRequest request, IMediator mediator, CancellationToken cancellationToken) =>
+                async (RoleRequest request, IMediator mediator, CancellationToken cancellationToken) =>
                 {
-                    await mediator.Send(new UpdateRoleCommand { UpdateRoleRequest = request}, cancellationToken);
+                    await mediator.Send(new UpdateRoleCommand { RoleRequest = request}, cancellationToken);
 
                     return Results.NoContent();
                 })
