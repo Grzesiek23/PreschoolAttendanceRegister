@@ -11,6 +11,7 @@ public class SchoolYearConfiguration : IEntityTypeConfiguration<SchoolYear>
         builder.Property(e => e.StartDate)
             .HasColumnType("date")
             .HasConversion(v => v.ToDateTime(default), v => DateOnly.FromDateTime(v));
+        
         builder.Property(e => e.EndDate)
             .HasColumnType("date")
             .HasConversion(v => v.ToDateTime(default), v => DateOnly.FromDateTime(v));

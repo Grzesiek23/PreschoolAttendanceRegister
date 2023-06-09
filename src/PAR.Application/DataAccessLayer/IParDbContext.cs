@@ -5,7 +5,9 @@ namespace PAR.Application.DataAccessLayer;
 
 public interface IParDbContext
 {
-    DbSet<SchoolYear> SchoolYears { get; set; }
     DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    DbSet<Preschooler> Preschoolers { get; set; }
+    DbSet<Group> Groups { get; set; }
+    DbSet<SchoolYear> SchoolYears { get; set; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

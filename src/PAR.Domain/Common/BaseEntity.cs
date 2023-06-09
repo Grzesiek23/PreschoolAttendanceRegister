@@ -1,6 +1,13 @@
 ﻿namespace PAR.Domain.Common;
 
-public class BaseEntity
+public abstract class BaseEntity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } 
+    public string? CreatedBy { get; set; } = null!;
+    public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+    public string? LastModifiedBy { get; set; }
+    public DateTime? LastModifiedOn { get; set; }
+    public bool IsActive { get; set; }
+    public string? InactivatedBy { get; set; }
+    public DateTime? InactivatedOn { get; set; }
 }
