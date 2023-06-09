@@ -35,14 +35,14 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, string
         {
             UserName = request.CreateAccountRequest.Email,
             Email = request.CreateAccountRequest.Email,
-            FirstName = request.CreateAccountRequest.FirstName,
-            LastName = request.CreateAccountRequest.LastName
+            FirstName = request.CreateAccountRequest.FirstName!,
+            LastName = request.CreateAccountRequest.LastName!
         };
 
         if (request.ConfirmPassword)
             newUser.EmailConfirmed = true;
 
-        var result = await _userManager.CreateAsync(newUser, request.CreateAccountRequest.Password);
+        var result = await _userManager.CreateAsync(newUser, request.CreateAccountRequest.Password!);
 
         if (!result.Succeeded)
         {

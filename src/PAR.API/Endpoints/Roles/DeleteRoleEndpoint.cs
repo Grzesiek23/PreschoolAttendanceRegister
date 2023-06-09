@@ -17,7 +17,9 @@ public static class DeleteRoleEndpoint
                     await mediator.Send(new DeleteRoleCommand {Id = id}, cancellationToken);
 
                     return Results.NoContent();
-                }).WithName(Name)
+                })
+            .WithName(Name)
+            .WithTags(ApiEndpoints.Roles.Tag)
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)

@@ -8,7 +8,9 @@ public class CreateAccountCommandValidator : AbstractValidator<CreateAccountComm
 {
     public CreateAccountCommandValidator(UserManager<ApplicationUser> userManager)
     {
-        RuleFor(x => x.CreateAccountRequest.Email).NotEmpty().EmailAddress()
+        RuleFor(x => x.CreateAccountRequest.Email)
+            .NotEmpty().WithMessage("Email is required")
+            .EmailAddress()
             .MustAsync(async (email, _) =>
             {
                 var user = await userManager.FindByEmailAsync(email);

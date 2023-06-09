@@ -17,7 +17,9 @@ public static class GetUserEndpoint
                 {
                     var result = await mediator.Send(new GetUserByIdQuery {Id = id}, cancellationToken);
                     return ResultHelper.CheckAndReturnResult(result);
-                }).WithName(Name)
+                })
+            .WithName(Name)
+            .WithTags(ApiEndpoints.Users.Tag)
             .Produces<UserDto>()
             .Produces(StatusCodes.Status404NotFound);
 

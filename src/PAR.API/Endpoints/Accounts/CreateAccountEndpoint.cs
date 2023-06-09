@@ -26,6 +26,7 @@ public static class CreateAccountEndpoint
                 return TypedResults.CreatedAtRoute(GetUserEndpoint.Name, new {id});
             })
             .WithName(Name)
+            .WithTags(ApiEndpoints.Account.Tag)
             .Produces<string>(StatusCodes.Status201Created)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest);
         return app;

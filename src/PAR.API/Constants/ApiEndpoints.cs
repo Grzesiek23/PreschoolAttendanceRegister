@@ -6,17 +6,20 @@ public static class ApiEndpoints
 
     public static class Account
     {
-        public const string Login = $"{ApiBase}/account/login";
+        public const string Tag = "Account";
         public const string Create = $"{ApiBase}/account";
     }
     
     public static class Users
     {
+        public const string Tag = "User";
         public const string Get = $"{ApiBase}/users/{{id}}";
+        public const string AssignUserToRole = $"{ApiBase}/users/{{userId}}/assign-to-role/{{roleId}}";
     }
     
     public static class Roles
     {
+        public const string Tag = "Role";
         public const string Get = $"{ApiBase}/roles/{{id}}";
         public const string Create = $"{ApiBase}/roles";
         public const string Update = $"{ApiBase}/roles/{{id}}";

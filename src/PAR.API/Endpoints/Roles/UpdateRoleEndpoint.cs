@@ -18,7 +18,9 @@ public static class UpdateRoleEndpoint
                     await mediator.Send(new UpdateRoleCommand { UpdateRoleRequest = request}, cancellationToken);
 
                     return Results.NoContent();
-                }).WithName(Name)
+                })
+            .WithName(Name)
+            .WithTags(ApiEndpoints.Roles.Tag)
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)

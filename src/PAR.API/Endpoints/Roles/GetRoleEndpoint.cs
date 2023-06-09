@@ -17,7 +17,9 @@ public static class GetRoleEndpoint
                 {
                     var result = await mediator.Send(new GetRoleByIdQuery {Id = id}, cancellationToken);
                     return ResultHelper.CheckAndReturnResult(result);
-                }).WithName(Name)
+                })
+            .WithName(Name)
+            .WithTags(ApiEndpoints.Roles.Tag)
             .Produces<RoleDto>()
             .Produces(StatusCodes.Status404NotFound)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest);
