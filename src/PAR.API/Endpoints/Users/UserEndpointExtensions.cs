@@ -6,6 +6,7 @@ public static class UserEndpointExtensions
     {
         app.MapGetUserEndpoint();
         app.MapAssignUserToRoleEndpoint();
+        app.MapRemoveUserFromRoleEndpoint();
         return app;
     } 
 }
