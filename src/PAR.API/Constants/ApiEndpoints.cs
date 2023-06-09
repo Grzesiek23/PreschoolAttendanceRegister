@@ -10,6 +10,12 @@ public static class ApiEndpoints
         public const string Create = $"{ApiBase}/account";
     }
     
+    public static class Authorization
+    {
+        public const string Tag = "Authorization";
+        public const string Login = $"{ApiBase}/authorization/login";
+    }
+    
     public static class Users
     {
         public const string Tag = "User";

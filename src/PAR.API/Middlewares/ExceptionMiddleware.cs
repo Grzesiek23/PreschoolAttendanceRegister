@@ -48,6 +48,11 @@ public class ExceptionMiddleware
                 _logger.Error("{Message}", message);
                 break;
             
+            case InvalidCredentialsException:
+                statusCode = StatusCodes.Status401Unauthorized;
+                message = "Invalid credentials.";
+                break;
+
             case ValidationException validationException:
                 statusCode = StatusCodes.Status400BadRequest;
                 var validationFailureResponse = new ValidationFailureResponse
