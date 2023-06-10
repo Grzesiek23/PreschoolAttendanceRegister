@@ -5,9 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PAR.Application.Abstractions;
 using PAR.Application.Configuration;
+using PAR.Application.DataValidation;
 using PAR.Application.Security;
 using PAR.Infrastructure.Authorization;
 using PAR.Infrastructure.Constants;
+using PAR.Infrastructure.DataValidation;
 using PAR.Infrastructure.Time;
 
 namespace PAR.Infrastructure;
@@ -19,7 +21,7 @@ public static class InfrastructureServiceCollectionExtensions
         services.Configure<ParSettings>(configuration.GetSection(ConfigurationConstants.ParSettings));
         services.Configure<JwtSettings>(configuration.GetSection(ConfigurationConstants.JwtSettings));
         services.AddSingleton<IClock, Clock>();
-        services .AddAuthentication(x =>
+        services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,6 +43,7 @@ public static class InfrastructureServiceCollectionExtensions
                 };
             });
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IDataValidationService, DataValidationService>();
         services.AddHttpContextAccessor();
 
         return services;

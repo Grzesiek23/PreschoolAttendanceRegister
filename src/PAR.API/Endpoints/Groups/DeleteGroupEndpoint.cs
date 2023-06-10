@@ -1,25 +1,25 @@
 ﻿using MediatR;
 using PAR.API.Constants;
-using PAR.Application.Features.SchoolYears.Commands;
+using PAR.Application.Features.Groups.Commands;
 using PAR.Contracts.Responses;
 
-namespace PAR.API.Endpoints.SchoolYears;
+namespace PAR.API.Endpoints.Groups;
 
-public static class DeleteSchoolYearEndpoint
+public static class DeleteGroupEndpoint
 {
-    private const string Name = "DeleteSchoolYear";
+    private const string Name = "DeleteGroup";
 
-    public static IEndpointRouteBuilder MapDeleteSchoolYearEndpoint(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder MapDeleteGroupEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapDelete(ApiEndpoints.SchoolYears.Delete,
+        app.MapDelete(ApiEndpoints.Groups.Delete,
                 async (int id, IMediator mediator, CancellationToken cancellationToken) =>
                 {
-                    await mediator.Send(new DeleteSchoolYearCommand {Id = id}, cancellationToken);
+                    await mediator.Send(new DeleteGroupCommand {Id = id}, cancellationToken);
 
                     return Results.NoContent();
                 })
             .WithName(Name)
-            .WithTags(ApiEndpoints.SchoolYears.Tag)
+            .WithTags(ApiEndpoints.Groups.Tag)
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)

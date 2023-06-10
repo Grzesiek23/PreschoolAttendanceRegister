@@ -79,6 +79,7 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
                 case EntityState.Modified:
                     entry.Entity.LastModifiedBy = changedBy;
                     entry.Entity.LastModifiedOn = _clock.Current();
+                    entry.Entity.IsActive = true;
                     break;
                 case EntityState.Deleted:
                     if(_parSettings.SoftDelete)

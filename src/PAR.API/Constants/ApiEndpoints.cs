@@ -33,6 +33,15 @@ public static class ApiEndpoints
         public const string Delete = $"{ApiBase}/roles/{{id:int}}";
     }
 
+    public static class Groups
+    {
+        public const string Tag = "Group";
+        public const string Create = $"{ApiBase}/groups";
+        public const string Get = $"{ApiBase}/groups/{{id:int}}";
+        public const string Update = $"{ApiBase}/groups/{{id:int}}";
+        public const string Delete = $"{ApiBase}/groups/{{id:int}}";
+    }
+
     public static class SchoolYears
     {
         public const string Tag = "SchoolYear";

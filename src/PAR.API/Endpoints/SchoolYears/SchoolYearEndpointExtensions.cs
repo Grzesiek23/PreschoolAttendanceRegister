@@ -2,7 +2,7 @@
 
 public static class SchoolYearEndpointExtensions
 {
-    public static IEndpointRouteBuilder MapSchoolYearEndpoint(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder MapSchoolYearEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapCreateSchoolYearEndpoint();
         app.MapGetSchoolYearEndpoint();

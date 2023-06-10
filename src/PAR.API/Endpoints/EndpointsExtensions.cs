@@ -1,5 +1,6 @@
 ﻿using PAR.API.Endpoints.Accounts;
 using PAR.API.Endpoints.Authorizations;
+using PAR.API.Endpoints.Groups;
 using PAR.API.Endpoints.Roles;
 using PAR.API.Endpoints.SchoolYears;
 using PAR.API.Endpoints.Users;
@@ -15,7 +16,8 @@ public static class EndpointsExtensions
         app.MapUserEndpoints();
         app.MapRoleEndpoints();
 
-        app.MapSchoolYearEndpoint();
+        app.MapSchoolYearEndpoints();
+        app.MapGroupEndpoints();
         return app;
     }
 }

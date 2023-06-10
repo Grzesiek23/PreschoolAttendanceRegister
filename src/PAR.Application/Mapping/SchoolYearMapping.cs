@@ -6,14 +6,14 @@ namespace PAR.Application.Mapping;
 
 public static class SchoolYearMapping
 {
-    public static SchoolYearDto AsDto(this SchoolYear apiClient)
+    public static SchoolYearDto AsDto(this SchoolYear entity)
     {
         return new SchoolYearDto
         {
-            Id = apiClient.Id,
-            StartDate = apiClient.StartDate,
-            EndDate = apiClient.EndDate,
-            IsCurrent = apiClient.IsCurrent
+            Id = entity.Id,
+            StartDate = entity.StartDate,
+            EndDate = entity.EndDate,
+            IsCurrent = entity.IsCurrent
         };
     }
 
