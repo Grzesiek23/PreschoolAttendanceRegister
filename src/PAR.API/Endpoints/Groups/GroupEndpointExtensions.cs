@@ -8,6 +8,7 @@ public static class GroupEndpointExtensions
         app.MapGetGroupEndpoint();
         app.MapUpdateGroupEndpoint();
         app.MapDeleteGroupEndpoint();
+        app.MapGetGroupsEndpoint();
         return app;
     }
 }

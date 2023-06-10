@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using PAR.API.Constants;
-using PAR.API.Endpoints.Preschoolers;
 using PAR.Application.Features.Preschoolers.Commands;
 using PAR.Contracts.Requests;
 using PAR.Contracts.Responses;
@@ -24,7 +23,7 @@ public static class CreatePreschoolerEndpoint
                 })
             .WithName(Name)
             .WithTags(ApiEndpoints.Preschoolers.Tag)
-            .Produces<string>(StatusCodes.Status201Created)
+            .Produces<int>(StatusCodes.Status201Created)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError)
             .RequireAuthorization();

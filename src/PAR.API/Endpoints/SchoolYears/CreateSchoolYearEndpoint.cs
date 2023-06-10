@@ -23,7 +23,7 @@ public static class CreateSchoolYearEndpoint
                 })
             .WithName(Name)
             .WithTags(ApiEndpoints.SchoolYears.Tag)
-            .Produces<string>(StatusCodes.Status201Created)
+            .Produces<int>(StatusCodes.Status201Created)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError)
             .RequireAuthorization();

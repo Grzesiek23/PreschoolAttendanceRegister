@@ -22,8 +22,8 @@ public static class UpdateSchoolYearEndpoint
                 })
             .WithName(Name)
             .WithTags(ApiEndpoints.SchoolYears.Tag)
-            .Produces<string>(StatusCodes.Status204NoContent)
-            .Produces<string>(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
             .RequireAuthorization();
         

@@ -8,6 +8,7 @@ public static class PreschoolerEndpointExtensions
         app.MapGetPreschoolerEndpoint();
         app.MapUpdatePreschoolerEndpoint();
         app.MapDeletePreschoolerEndpoint();
+        app.MapGetPreschoolersEndpoint();
         return app;
     }
 }

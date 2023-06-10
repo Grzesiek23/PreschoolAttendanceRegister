@@ -6,12 +6,12 @@ using PAR.Contracts.Requests;
 
 namespace PAR.Application.Features.Preschoolers.Commands;
 
-public record CreatePreschoolerCommand : IRequest<string>
+public record CreatePreschoolerCommand : IRequest<int>
 {
     public PreschoolerRequest PreschoolerRequest { get; init; } = null!;
 }
 
-public class CreatePreschoolerHandler : IRequestHandler<CreatePreschoolerCommand, string>
+public class CreatePreschoolerHandler : IRequestHandler<CreatePreschoolerCommand, int>
 {
     private readonly IParDbContext _dbContext;
     private readonly IDataValidationService _dataValidationService;
@@ -22,7 +22,7 @@ public class CreatePreschoolerHandler : IRequestHandler<CreatePreschoolerCommand
         _dataValidationService = dataValidationService;
     }
 
-    public async Task<string> Handle(CreatePreschoolerCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreatePreschoolerCommand request, CancellationToken cancellationToken)
     {
         await _dataValidationService.GetGroupAsync(request.PreschoolerRequest.GroupId, cancellationToken);
         
@@ -31,6 +31,6 @@ public class CreatePreschoolerHandler : IRequestHandler<CreatePreschoolerCommand
         await _dbContext.Preschoolers.AddAsync(entity, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
-        return entity.Id.ToString();
+        return entity.Id;
     }
 }

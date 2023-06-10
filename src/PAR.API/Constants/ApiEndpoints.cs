@@ -28,6 +28,7 @@ public static class ApiEndpoints
     {
         public const string Tag = "Role";
         public const string Get = $"{ApiBase}/roles/{{id:int}}";
+        public const string GetAll = $"{ApiBase}/roles";
         public const string Create = $"{ApiBase}/roles";
         public const string Update = $"{ApiBase}/roles/{{id:int}}";
         public const string Delete = $"{ApiBase}/roles/{{id:int}}";
@@ -38,6 +39,7 @@ public static class ApiEndpoints
         public const string Tag = "Group";
         public const string Create = $"{ApiBase}/groups";
         public const string Get = $"{ApiBase}/groups/{{id:int}}";
+        public const string GetAll = $"{ApiBase}/groups";
         public const string Update = $"{ApiBase}/groups/{{id:int}}";
         public const string Delete = $"{ApiBase}/groups/{{id:int}}";
     }
@@ -47,6 +49,7 @@ public static class ApiEndpoints
         public const string Tag = "SchoolYear";
         public const string Create = $"{ApiBase}/school-years";
         public const string Get = $"{ApiBase}/school-years/{{id:int}}";
+        public const string GetAll = $"{ApiBase}/school-years";
         public const string Update = $"{ApiBase}/school-years/{{id:int}}";
         public const string Delete = $"{ApiBase}/school-years/{{id:int}}";
     }
@@ -56,6 +59,7 @@ public static class ApiEndpoints
         public const string Tag = "Preschooler";
         public const string Create = $"{ApiBase}/preschoolers";
         public const string Get = $"{ApiBase}/preschoolers/{{id:int}}";
+        public const string GetAll = $"{ApiBase}/preschoolers";
         public const string Update = $"{ApiBase}/preschoolers/{{id:int}}";
         public const string Delete = $"{ApiBase}/preschoolers/{{id:int}}";
     }

@@ -8,6 +8,7 @@ public static class RoleEndpointExtensions
         app.MapCreateRoleEndpoint();
         app.MapUpdateRoleEndpoint();
         app.MapDeleteRoleEndpoint();
+        app.MapGetAllRolesEndpoint();
         return app;
     } 
 }

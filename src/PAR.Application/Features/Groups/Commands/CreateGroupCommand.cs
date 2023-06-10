@@ -6,12 +6,12 @@ using PAR.Contracts.Requests;
 
 namespace PAR.Application.Features.Groups.Commands;
 
-public record CreateGroupCommand : IRequest<string>
+public record CreateGroupCommand : IRequest<int>
 {
     public GroupRequest GroupRequest { get; init; } = null!;
 }
 
-public class CreateGroupHandler : IRequestHandler<CreateGroupCommand, string>
+public class CreateGroupHandler : IRequestHandler<CreateGroupCommand, int>
 {
     private readonly IParDbContext _dbContext;
     private readonly IDataValidationService _dataValidationService;
@@ -22,7 +22,7 @@ public class CreateGroupHandler : IRequestHandler<CreateGroupCommand, string>
         _dataValidationService = dataValidationService;
     }
 
-    public async Task<string> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
         await _dataValidationService.GetTeacherAndSchoolYearAsync(request.GroupRequest.TeacherId, request.GroupRequest.SchoolYearId, cancellationToken);
         
@@ -31,6 +31,6 @@ public class CreateGroupHandler : IRequestHandler<CreateGroupCommand, string>
         await _dbContext.Groups.AddAsync(entity, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
-        return entity.Id.ToString();
+        return entity.Id;
     }
 }

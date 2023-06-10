@@ -8,6 +8,7 @@ public static class SchoolYearEndpointExtensions
         app.MapGetSchoolYearEndpoint();
         app.MapUpdateSchoolYearEndpoint();
         app.MapDeleteSchoolYearEndpoint();
+        app.MapGetSchoolYearsEndpoint();
         return app;
     }
 }
