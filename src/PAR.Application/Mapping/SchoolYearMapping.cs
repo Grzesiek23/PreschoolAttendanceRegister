@@ -17,6 +17,17 @@ public static class SchoolYearMapping
         };
     }
 
+    public static SchoolYearDto AsDtoWithoutNested(this SchoolYear entity)
+    {
+        return new SchoolYearDto
+        {
+            Id = entity.Id,
+            StartDate = entity.StartDate,
+            EndDate = entity.EndDate,
+            IsCurrent = entity.IsCurrent
+        };
+    }
+    
     public static SchoolYear AsEntity(this SchoolYearRequest request)
     {
         return new SchoolYear

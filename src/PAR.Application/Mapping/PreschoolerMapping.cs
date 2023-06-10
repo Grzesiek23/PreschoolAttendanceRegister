@@ -14,9 +14,21 @@ public static class PreschoolerMapping
             FirstName = entity.FirstName,
             LastName = entity.LastName,
             GroupId = entity.GroupId,
+            Group = entity.Group?.AsDtoWithoutNested(),
         };
     }
 
+    public static PreschoolerDto AsDtoWithoutNested(this Preschooler entity)
+    {
+        return new PreschoolerDto
+        {
+            Id = entity.Id,
+            FirstName = entity.FirstName,
+            LastName = entity.LastName,
+            GroupId = entity.GroupId,
+        };
+    }
+    
     public static Preschooler AsEntity(this PreschoolerRequest request)
     {
         return new Preschooler

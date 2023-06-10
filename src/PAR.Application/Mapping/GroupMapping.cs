@@ -14,6 +14,19 @@ public static class GroupMapping
             Name = entity.Name,
             TeacherId = entity.TeacherId,
             SchoolYearId = entity.SchoolYearId,
+            Teacher = entity.Teacher?.AsDtoWithoutNested(),
+            SchoolYear = entity.SchoolYear?.AsDtoWithoutNested()
+        };
+    }
+    
+    public static GroupDto AsDtoWithoutNested(this Group entity)
+    {
+        return new GroupDto
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            TeacherId = entity.TeacherId,
+            SchoolYearId = entity.SchoolYearId,
         };
     }
 

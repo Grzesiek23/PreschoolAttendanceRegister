@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
+using PAR.Application.Mapping;
 using PAR.Contracts.Dtos;
 using PAR.Domain.Entities;
 
@@ -28,14 +29,8 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserDto?>
 
         var roles = await _userManager.GetRolesAsync(user);
 
-        var result = new UserDto
-        {
-            Id = user.Id,
-            Email = user.Email!,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Roles = roles
-        };
+        var result = user.AsDto();
+        result.Roles = roles;
 
         return result;
     }

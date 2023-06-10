@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using PAR.API.Constants;
 using PAR.Application.Features.Groups.Queries;
-using PAR.Application.Features.Preschoolers.Queries;
 using PAR.Contracts;
 using PAR.Contracts.Dtos;
 using PAR.Contracts.Requests.Options;
