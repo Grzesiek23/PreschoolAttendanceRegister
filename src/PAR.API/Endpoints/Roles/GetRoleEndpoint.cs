@@ -22,7 +22,8 @@ public static class GetRoleEndpoint
             .WithTags(ApiEndpoints.Roles.Tag)
             .Produces<RoleDto>()
             .Produces(StatusCodes.Status404NotFound)
-            .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest);
+            .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
+            .RequireAuthorization();
 
         return app;
     }

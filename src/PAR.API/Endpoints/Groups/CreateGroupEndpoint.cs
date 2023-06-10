@@ -27,6 +27,7 @@ public static class CreateGroupEndpoint
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError)
             .RequireAuthorization();
+        
         return app;
     }
 }

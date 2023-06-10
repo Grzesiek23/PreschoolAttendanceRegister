@@ -26,6 +26,7 @@ public static class UpdateSchoolYearEndpoint
             .Produces<string>(StatusCodes.Status404NotFound)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
             .RequireAuthorization();
+        
         return app;
     }
 }

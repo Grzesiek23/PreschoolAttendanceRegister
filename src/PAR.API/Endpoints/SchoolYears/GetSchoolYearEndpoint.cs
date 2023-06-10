@@ -22,7 +22,8 @@ public static class GetSchoolYearEndpoint
             .WithTags(ApiEndpoints.SchoolYears.Tag)
             .Produces<RoleDto>()
             .Produces(StatusCodes.Status404NotFound)
-            .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest);
+            .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status500InternalServerError);
 
         return app;
     }

@@ -29,7 +29,9 @@ public static class CreateAccountEndpoint
             .WithTags(ApiEndpoints.Account.Tag)
             .Produces<string>(StatusCodes.Status201Created)
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status500InternalServerError);
+            .Produces(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization();
+
         return app;
     }
 }

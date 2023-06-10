@@ -21,7 +21,8 @@ public static class AssignUserToRoleEndpoint
             .WithTags(ApiEndpoints.Users.Tag)
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
-            .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest);
+            .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
+            .RequireAuthorization();
 
         return app;
     }

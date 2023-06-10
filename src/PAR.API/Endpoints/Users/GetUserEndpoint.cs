@@ -21,7 +21,8 @@ public static class GetUserEndpoint
             .WithName(Name)
             .WithTags(ApiEndpoints.Users.Tag)
             .Produces<UserDto>()
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization();
 
         return app;
     }
