@@ -22,7 +22,7 @@ public class DeleteGroupHandler : IRequestHandler<DeleteGroupCommand, Unit>
 
     public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Groups.FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
+        var entity = await _dbContext.Groups.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
         
         if (entity == null)
             throw new NotFoundException(nameof(DeleteGroupCommand), nameof(Group), request.Id);

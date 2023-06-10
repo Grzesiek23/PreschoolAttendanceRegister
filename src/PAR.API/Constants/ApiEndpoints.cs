@@ -50,4 +50,13 @@ public static class ApiEndpoints
         public const string Update = $"{ApiBase}/school-years/{{id:int}}";
         public const string Delete = $"{ApiBase}/school-years/{{id:int}}";
     }
+
+    public static class Preschoolers
+    {
+        public const string Tag = "Preschooler";
+        public const string Create = $"{ApiBase}/preschoolers";
+        public const string Get = $"{ApiBase}/preschoolers/{{id:int}}";
+        public const string Update = $"{ApiBase}/preschoolers/{{id:int}}";
+        public const string Delete = $"{ApiBase}/preschoolers/{{id:int}}";
+    }
 }

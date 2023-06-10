@@ -6,4 +6,5 @@ public interface IDataValidationService
 {
     Task<(ApplicationUser teacher, SchoolYear schoolYear)> GetTeacherAndSchoolYearAsync(int teacherId, int schoolYearId,
         CancellationToken cancellationToken);
+    Task<Group> GetGroupAsync(int groupId, CancellationToken cancellationToken);
 }

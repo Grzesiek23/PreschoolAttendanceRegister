@@ -1,11 +1,8 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using PAR.Application.DataAccessLayer;
 using PAR.Application.DataValidation;
-using PAR.Application.Exceptions;
 using PAR.Application.Mapping;
 using PAR.Contracts.Requests;
-using PAR.Domain.Entities;
 
 namespace PAR.Application.Features.Groups.Commands;
 
