@@ -28,6 +28,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ParDbContext>();
 
+builder.Services.AddCors();
 builder.Services.AddAuthorization();
 
 builder.Services.AddInfrastructure(configuration);
@@ -73,6 +74,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.UseCors(corsPolicyBuilder => corsPolicyBuilder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .WithExposedHeaders("Location"));
 
 app.UseHttpsRedirection();
 
