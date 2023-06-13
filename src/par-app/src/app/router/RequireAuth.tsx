@@ -6,19 +6,17 @@ import { useEffect, useState } from "react";
 
 function RequireAuth() {
   const {
-    accountStore: { isLoggedIn },
+    accountStore: { user, isLoggedIn },
   } = useStore();
-  const location = useLocation();
 
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(!isLoggedIn());
 
   useEffect(() => {
-    if (!isLoggedIn()) {
-      setShouldRedirect(true);
-    }
-  }, [isLoggedIn, location]);
+    setShouldRedirect(!isLoggedIn());
+  }, [user]);
 
   if (shouldRedirect) {
+    const location = useLocation();
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
