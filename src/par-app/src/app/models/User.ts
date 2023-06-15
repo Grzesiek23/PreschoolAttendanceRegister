@@ -4,9 +4,8 @@
 }
 
 export interface User {
-    id: string;
+    id: number;
     email: string;
     token: string;
-    firstName: string;
-    lastName: number;
+    fullName: string;
 }

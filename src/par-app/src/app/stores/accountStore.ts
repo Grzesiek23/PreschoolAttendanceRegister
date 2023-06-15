@@ -1,25 +1,37 @@
 import { makeAutoObservable } from 'mobx';
-import {User, UserLogin} from "../models/User";
+import { User, UserLogin } from "../models/User";
 import jwt_decode from 'jwt-decode';
 import { store } from './store';
 import agent from '../api/agent';
 
 type DecodedToken = {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
     role: string[];
     exp: number;
 };
+
 export default class AccountStore {
     constructor() {
         makeAutoObservable(this);
+
         const token = window.localStorage.getItem('jwt');
-        if (token) {
-            this.setRoles(token);
+        if (token && !this.isTokenExpired(token)) {
+            const decoded: DecodedToken = jwt_decode(token);
+
+            this.user = {
+                id: decoded.id,
+                email: decoded.email,
+                fullName: decoded.firstName + ' ' + decoded.lastName,
+                token: token
+            };
         }
     }
 
     user: User | null = null;
     abortController: AbortController | undefined = undefined;
-    roles: string[] = [];
 
     createOrReplaceAbortController = () => {
         if (this.abortController) {
@@ -27,6 +39,14 @@ export default class AccountStore {
         }
         this.abortController = new AbortController();
     };
+
+    getRoles = () => {
+        const token = window.localStorage.getItem('jwt');
+        if (!token) return [];
+
+        const decoded: DecodedToken = jwt_decode(token);
+        return decoded.role ?? [];
+    }
 
     isLoggedIn = () => {
         const token = window.localStorage.getItem('jwt');
@@ -42,25 +62,10 @@ export default class AccountStore {
 
     setUser = (user: User | null) => {
         this.user = user;
-
-        if (user && user?.token !== null) {
-            this.setRoles(user.token);
-        }
-    };
-
-    setRoles = (token: string) => {
-        const decoded: DecodedToken = jwt_decode(token);
-        if (decoded && decoded.role) {
-            this.roles = decoded.role;
-            window.localStorage.setItem('userRoles', JSON.stringify(decoded.role));
-        } else {
-            this.roles = [];
-            window.localStorage.removeItem('userRoles');
-        }
     };
 
     hasRole = (role: string) => {
-        return this.roles.includes(role);
+        return this.getRoles().includes(role);
     };
 
     loginUser = async (credentials: UserLogin) => {
@@ -75,9 +80,13 @@ export default class AccountStore {
             throw error;
         }
     };
+
     logoutUser = () => {
         store.commonStore.setToken(null);
         this.setUser(null);
-        window.localStorage.removeItem('userRoles');
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = undefined;
+        }
     };
 }
