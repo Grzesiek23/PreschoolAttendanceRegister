@@ -20,7 +20,7 @@ public static class GetGroupsEndpoint
                     return TypedResults.Ok(result);
                 })
             .WithName(Name)
-            .WithTags(ApiEndpoints.SchoolYears.Tag)
+            .WithTags(ApiEndpoints.Groups.Tag)
             .Produces<PagedResponse<GroupDto>>()
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError)
