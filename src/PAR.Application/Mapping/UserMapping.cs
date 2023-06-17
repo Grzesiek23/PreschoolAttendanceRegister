@@ -13,6 +13,7 @@ public static class UserMapping
             FirstName = entity.FirstName,
             LastName = entity.LastName,
             Email = entity.Email,
+            Role = entity.UserRoles.Select(x => x.ApplicationRole).FirstOrDefault()?.AsDto()
         };
     }
     
