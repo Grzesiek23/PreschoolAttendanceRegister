@@ -4,6 +4,7 @@ import App from '../../App';
 import AuthLayout from '../components/shared/AuthLayout';
 import RequireAuth from './RequireAuth';
 import Home from "../../features/Home";
+import UsersList from "../../features/Users";
 
 export const routes: RouteObject[] = [
     {
@@ -16,6 +17,8 @@ export const routes: RouteObject[] = [
                 element: <RequireAuth />,
                 children: [
                     { path: 'home', element: <Home /> },
+                    { path: 'users', element: <UsersList /> },
+                    
                 ],
             },
         ],

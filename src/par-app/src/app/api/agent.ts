@@ -2,7 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import API_CONSTANTS from './apiConstants';
 import { LogError } from '../utils/logger';
-import {User, UserLogin} from "../models/User";
+import { User, UserLogin } from '../models/User';
+import { ApplicationUsers } from '../models/applicationUsers';
 
 axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL as string;
 
@@ -64,10 +65,17 @@ const requests = {
 };
 
 const Account = {
-    login: (user: UserLogin, signal?: AbortSignal) => requests.post<User>(`${API_CONSTANTS.AUTHORIZATION}/login`, user, signal),
+    login: (user: UserLogin, signal?: AbortSignal) =>
+        requests.post<User>(`${API_CONSTANTS.AUTHORIZATION}/login`, user, signal),
+};
+
+const User = {
+    list: (params: URLSearchParams, signal?: AbortSignal) =>
+        requests.getWithParams<ApplicationUsers>(API_CONSTANTS.USERS, params, signal),
 };
 
 const agent = {
     Account,
+    User,
 };
 export default agent;

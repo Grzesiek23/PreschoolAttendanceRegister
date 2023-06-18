@@ -87,6 +87,7 @@ function Sidebar() {
                 <Divider sx={{ backgroundColor: 'gray', mx: 2 }} />
                 <MenuItem icon={<PeopleAltIcon />} to={URL_CONSTANTS.PRESCHOOLERS} label="Dzieci" />
                 <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.GROUPS} label="Grupy" />
+                <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.USERS} label="Użytkownicy" />
             </Box>
         </Drawer>
     );
