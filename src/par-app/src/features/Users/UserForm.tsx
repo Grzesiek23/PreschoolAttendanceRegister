@@ -43,7 +43,7 @@ const validationSchema = Yup.object({
 
 function UserForm() {
     const [user, setUser] = useState<ApplicationUserFormValues>(new ApplicationUserFormValues());
-    const [emailError, setEmailError] = useState<string | undefined>();
+    const [emailError, setEmailError] = useState<string | ''>();
     const { userStore: store, roleStore } = useStore();
     const navigate = useNavigate();
 
@@ -54,6 +54,27 @@ function UserForm() {
             toast.success('Dodano nowego użytkownika');
         }
     };
+    
+    const validateEmailAsync = async (email: string) => {
+        const emailSchema = Yup.string()
+            .required('Email jest wymagany')
+            .email('Niepoprawny format email');
+        try {
+            await emailSchema.validate(email);
+            const exists = await store.exists(email);
+            if (exists) {
+                setEmailError('Email jest już zajęty');
+            } else {
+                setEmailError(undefined);
+            }
+        } catch (error) {
+            if (error instanceof Yup.ValidationError) {
+                setEmailError(error.message);
+            } else {
+                setEmailError('Wystąpił nieoczekiwany błąd');
+            }
+        }
+    }
 
     useEffect(() => {
         (async () => {
@@ -94,24 +115,7 @@ function UserForm() {
                                 size="small"
                                 onBlur={async (e) => {
                                     handleBlur(e);
-                                    const emailSchema = Yup.string()
-                                        .required('Email jest wymagany')
-                                        .email('Niepoprawny format email');
-                                    try {
-                                        await emailSchema.validate(values.email);
-                                        const exists = await store.exists(values.email);
-                                        if (exists) {
-                                            setEmailError('Email jest już zajęty');
-                                        } else {
-                                            setEmailError(undefined);
-                                        }
-                                    } catch (error) {
-                                        if (error instanceof Yup.ValidationError) {
-                                            setEmailError(error.message);
-                                        } else {
-                                            setEmailError('Wystąpił nieoczekiwany błąd');
-                                        }
-                                    }
+                                    await validateEmailAsync(values.email);
                                 }}
                                 error={touched.email && Boolean(emailError)}
                                 helperText={touched.email && emailError}
@@ -182,7 +186,7 @@ function UserForm() {
                                 }}
                             />
 
-                            {roleStore.roles && roleStore.roles.length > 0 && user.role !== '' && (
+                            {roleStore.roles && user.role !== '' && (
                                 <FormControl>
                                     <InputLabel id="roleLabel">Wybierz rolę</InputLabel>
                                     <Select
