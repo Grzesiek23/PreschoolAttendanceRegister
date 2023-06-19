@@ -73,12 +73,12 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
             {
                 case EntityState.Added:
                     entry.Entity.CreatedBy = changedBy;
-                    entry.Entity.CreatedOn = _clock.Current();
+                    entry.Entity.CreatedOnUtc = _clock.Current();
                     entry.Entity.IsActive = true;
                     break;
                 case EntityState.Modified:
                     entry.Entity.LastModifiedBy = changedBy;
-                    entry.Entity.LastModifiedOn = _clock.Current();
+                    entry.Entity.LastModifiedOnUtc = _clock.Current();
                     entry.Entity.IsActive = true;
                     break;
                 case EntityState.Deleted:
@@ -86,7 +86,7 @@ public class ParDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
                     {
                         entry.State = EntityState.Modified;
                         entry.Entity.InactivatedBy = changedBy;
-                        entry.Entity.InactivatedOn = _clock.Current();
+                        entry.Entity.InactivatedOnUtc = _clock.Current();
                         entry.Entity.IsActive = false;
                     }
                     break;
