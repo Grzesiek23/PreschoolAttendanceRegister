@@ -6,6 +6,10 @@ public class CreateSchoolYearCommandValidator : AbstractValidator<CreateSchoolYe
 {
     public CreateSchoolYearCommandValidator()
     {
+        RuleFor(x => x.SchoolYearRequest.Name)
+            .NotEmpty()
+            .MaximumLength(50);
+        
         RuleFor(x => x.SchoolYearRequest.StartDate)
             .NotEmpty()
             .WithMessage("Start date is required.");

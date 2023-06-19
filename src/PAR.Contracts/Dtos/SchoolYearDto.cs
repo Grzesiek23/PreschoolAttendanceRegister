@@ -4,6 +4,7 @@ namespace PAR.Contracts.Dtos;
 
 public class SchoolYearDto : BaseDto
 {
+     public string Name { get; set; }
      public DateOnly StartDate { get; set; }
      public DateOnly EndDate { get; set; }
      public bool IsCurrent { get; set; }

@@ -6,6 +6,10 @@ public class UpdateSchoolYearCommandValidator : AbstractValidator<UpdateSchoolYe
 {
     public UpdateSchoolYearCommandValidator()
     {
+        RuleFor(x => x.SchoolYearRequest.Name)
+            .NotEmpty()
+            .MaximumLength(50);
+
         RuleFor(x => x.Id)
             .NotEmpty()
             .WithMessage("Id is required.");

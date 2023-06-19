@@ -8,6 +8,10 @@ public class SchoolYearConfiguration : IEntityTypeConfiguration<SchoolYear>
 {
     public void Configure(EntityTypeBuilder<SchoolYear> builder)
     {
+        builder.Property(e => e.Name)
+            .HasMaxLength(50)
+            .IsRequired();
+        
         builder.Property(e => e.StartDate)
             .HasColumnType("date")
             .HasConversion(v => v.ToDateTime(default), v => DateOnly.FromDateTime(v));

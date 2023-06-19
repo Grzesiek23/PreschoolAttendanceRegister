@@ -11,6 +11,7 @@ public static class SchoolYearMapping
         return new SchoolYearDto
         {
             Id = entity.Id,
+            Name = entity.Name,
             StartDate = entity.StartDate,
             EndDate = entity.EndDate,
             IsCurrent = entity.IsCurrent
@@ -22,6 +23,7 @@ public static class SchoolYearMapping
         return new SchoolYearDto
         {
             Id = entity.Id,
+            Name = entity.Name,
             StartDate = entity.StartDate,
             EndDate = entity.EndDate,
             IsCurrent = entity.IsCurrent
@@ -33,6 +35,7 @@ public static class SchoolYearMapping
         return new SchoolYear
         {
             Id = request.Id,
+            Name = request.Name,
             StartDate = DateOnly.FromDateTime(request.StartDate),
             EndDate = DateOnly.FromDateTime(request.EndDate),
             IsCurrent = request.IsCurrent
