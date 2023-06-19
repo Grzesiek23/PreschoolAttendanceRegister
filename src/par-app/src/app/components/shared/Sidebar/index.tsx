@@ -89,6 +89,7 @@ function Sidebar() {
                 <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.GROUPS} label="Grupy" />
                 <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.USERS} label="Użytkownicy" />
                 <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.SCHOOL_YEARS} label="Roczniki" />
+                <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.GROUPS} label="Grupy" />
             </Box>
         </Drawer>
     );

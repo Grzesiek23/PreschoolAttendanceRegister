@@ -2,6 +2,8 @@ export const URL_CONSTANTS = {
     HOME: '/home',
     NOT_FOUND: '/not-found',
     GROUPS: '/groups',
+    GROUPS_DETAILS: (id: number) => `/groups/${id}`,
+    
     PRESCHOOLERS: '/preschoolers',
 
     USERS: '/users',

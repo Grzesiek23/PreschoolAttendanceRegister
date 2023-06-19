@@ -11,6 +11,7 @@ import UserDetails from "../../features/Users/Details";
 import SchoolYearList from "../../features/SchoolYear";
 import SchoolYearForm from "../../features/SchoolYear/SchoolYearForm";
 import SchoolYearDetails from "../../features/SchoolYear/Details";
+import GroupList from "../../features/Group";
 
 export const routes: RouteObject[] = [
     {
@@ -30,6 +31,10 @@ export const routes: RouteObject[] = [
                     },
                     { path: 'school-years/:id', element: <SchoolYearDetails /> },
                     { path: 'school-years/:id/edit', element: <SchoolYearForm key="manage" /> },
+
+                    { path: 'groups', element: <GroupList /> },
+                    
+                    
                     { path: 'users', element: <UsersList /> },
                     {
                         path: 'users/create',

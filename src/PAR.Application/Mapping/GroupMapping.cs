@@ -30,6 +30,19 @@ public static class GroupMapping
         };
     }
 
+    public static GroupDetailDto AsDetailDto(this Group entity)
+    {
+        return new GroupDetailDto
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            TeacherId = entity.TeacherId,
+            SchoolYearId = entity.SchoolYearId,
+            TeacherName = entity.Teacher?.FullName,
+            SchoolYearName = entity.SchoolYear?.Name
+        };
+    }
+    
     public static Group AsEntity(this GroupRequest request)
     {
         return new Group

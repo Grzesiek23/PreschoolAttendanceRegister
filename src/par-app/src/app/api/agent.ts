@@ -9,6 +9,9 @@ import { ApplicationUser, ApplicationUserEditFormValues, ApplicationUserFormValu
 import { SchoolYears } from '../models/schoolYears';
 import { SchoolYearDto, SchoolYearFormValues } from '../models/schoolYear';
 import * as dayjs from "dayjs";
+import {GroupDto} from "../models/group";
+import {PagedResponse} from "../models/common/pagedResponse";
+import {GroupDetailDto} from "../models/groupDetail";
 
 axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL as string;
 
@@ -114,10 +117,16 @@ const SchoolYear = {
     },
 };
 
+const Group = {
+    list: (params: URLSearchParams, signal?: AbortSignal) => requests.getWithParams<PagedResponse<GroupDetailDto>>(`${API_CONSTANTS.GROUPS}/details`, params, signal),
+    details: (id: number, signal?: AbortSignal) => requests.get<GroupDto>(`${API_CONSTANTS.GROUPS}/${id}`, signal),
+}
+
 const agent = {
     Account,
     User,
     Role,
     SchoolYear,
+    Group,
 };
 export default agent;
