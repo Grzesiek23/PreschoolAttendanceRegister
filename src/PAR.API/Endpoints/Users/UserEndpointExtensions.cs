@@ -6,9 +6,10 @@ public static class UserEndpointExtensions
     {
         app.MapGetUserEndpoint();
         app.MapGetUsersEndpoint();
+        app.MapCreateUserEndpoint();
+        app.MapCheckEmailExistsEndpoint();
         app.MapAssignUserToRoleEndpoint();
         app.MapRemoveUserFromRoleEndpoint();
         return app;
-    } 
+    }
 }
-

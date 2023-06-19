@@ -5,12 +5,14 @@ import { store } from './store';
 import agent from '../api/agent';
 import { LogError } from '../utils/logger';
 import { ApplicationUsers } from '../models/applicationUsers';
+import { ApplicationUser, ApplicationUserFormValues } from '../models/applicationUser';
 
 export default class UserStore {
     constructor() {
         makeAutoObservable(this);
     }
 
+    user: ApplicationUser | undefined = undefined;
     users: ApplicationUsers | undefined = undefined;
     pagination: GridPaginationModel = { page: 0, pageSize: GRID_CONSTANTS.DEFAULT_PAGE_SIZE };
     sortModel: GridSortModel | undefined = [{ field: 'id', sort: 'asc' }];
@@ -18,12 +20,21 @@ export default class UserStore {
     filterFirstName: string = '';
     filterLastName: string = '';
     filterEmail: string = '';
+    createdUserId: string = '';
 
     createOrReplaceAbortController = () => {
         if (this.abortController) {
             this.abortController.abort();
         }
         this.abortController = new AbortController();
+    };
+
+    setUser = (user: ApplicationUser) => {
+        this.user = user;
+    };
+
+    clearUser = () => {
+        this.user = undefined;
     };
 
     setUsers = (user: ApplicationUsers) => {
@@ -41,6 +52,33 @@ export default class UserStore {
             LogError(error);
         } finally {
             store.commonStore.setLoadingIndicator(false);
+        }
+    };
+
+    exists = async (email: string): Promise<boolean> => {
+        try {
+            return await agent.User.exists(email);
+        } catch (error) {
+            LogError(error);
+            return false;
+        }
+    };
+
+    createUser = async (userFormValues: ApplicationUserFormValues): Promise<boolean> => {
+        try {
+            this.createOrReplaceAbortController();
+
+            const response = await agent.User.create(userFormValues, this.abortController!.signal);
+            if (response.status === 201 && response.data !== null) {
+                runInAction(() => {
+                    this.createdUserId = response.data;
+                });
+                return true;
+            }
+            return false;
+        } catch (error) {
+            LogError(error);
+            return false;
         }
     };
 

@@ -21,6 +21,8 @@ public static class ApiEndpoints
         public const string Tag = "User";
         public const string Get = $"{ApiBase}/users/{{id:int}}";
         public const string GetAll = $"{ApiBase}/users";
+        public const string Create = $"{ApiBase}/users";
+        public const string Exists = $"{ApiBase}/users/exists/{{email}}";
         public const string AssignUserToRole = $"{ApiBase}/users/{{userId:int}}/assign-to-role/{{roleId:int}}";
         public const string RemoveUserFromRole = $"{ApiBase}/users/{{userId:int}}/remove-from-role/{{roleId:int}}";
     }

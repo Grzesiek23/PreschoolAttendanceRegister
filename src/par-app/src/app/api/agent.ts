@@ -4,6 +4,8 @@ import API_CONSTANTS from './apiConstants';
 import { LogError } from '../utils/logger';
 import { User, UserLogin } from '../models/User';
 import { ApplicationUsers } from '../models/applicationUsers';
+import {ApplicationRole} from "../models/applicationRole";
+import {ApplicationUserFormValues} from "../models/applicationUser";
 
 axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL as string;
 
@@ -72,10 +74,18 @@ const Account = {
 const User = {
     list: (params: URLSearchParams, signal?: AbortSignal) =>
         requests.getWithParams<ApplicationUsers>(API_CONSTANTS.USERS, params, signal),
+    exists: (email: string, signal?: AbortSignal) => requests.get<boolean>(`${API_CONSTANTS.USERS}/exists/${email}`, signal),
+    create: (user: ApplicationUserFormValues, signal?: AbortSignal) =>
+        axios.post<string>(API_CONSTANTS.USERS, user, { signal }),
+};
+
+const Role = {
+    list: (signal?: AbortSignal) => requests.get<ApplicationRole[]>(API_CONSTANTS.ROLES, signal),
 };
 
 const agent = {
     Account,
     User,
+    Role
 };
 export default agent;
