@@ -10,6 +10,7 @@ import { plPL as corePlPL } from '@mui/material/locale';
 import {RouterProvider} from "react-router-dom";
 import {router} from "./app/router/Routes";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import 'dayjs/locale/pl';
 
 const theme = createTheme(themeOptions('light'), plPL, corePlPL);
 

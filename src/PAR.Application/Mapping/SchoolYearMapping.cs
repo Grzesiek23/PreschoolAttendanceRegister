@@ -33,8 +33,8 @@ public static class SchoolYearMapping
         return new SchoolYear
         {
             Id = request.Id,
-            StartDate = request.StartDate,
-            EndDate = request.EndDate,
+            StartDate = DateOnly.FromDateTime(request.StartDate),
+            EndDate = DateOnly.FromDateTime(request.EndDate),
             IsCurrent = request.IsCurrent
         };
     }

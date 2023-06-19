@@ -8,6 +8,9 @@ import UsersList from "../../features/Users";
 import UserForm from "../../features/Users/UserForm";
 import UserEditForm from "../../features/Users/UserEditForm";
 import UserDetails from "../../features/Users/Details";
+import SchoolYearList from "../../features/SchoolYear";
+import SchoolYearForm from "../../features/SchoolYear/SchoolYearForm";
+import SchoolYearDetails from "../../features/SchoolYear/Details";
 
 export const routes: RouteObject[] = [
     {
@@ -20,6 +23,13 @@ export const routes: RouteObject[] = [
                 element: <RequireAuth />,
                 children: [
                     { path: 'home', element: <Home /> },
+                    { path: 'school-years', element: <SchoolYearList /> },
+                    {
+                        path: 'school-years/create',
+                        element: <SchoolYearForm key="create" />,
+                    },
+                    { path: 'school-years/:id', element: <SchoolYearDetails /> },
+                    { path: 'school-years/:id/edit', element: <SchoolYearForm key="manage" /> },
                     { path: 'users', element: <UsersList /> },
                     {
                         path: 'users/create',

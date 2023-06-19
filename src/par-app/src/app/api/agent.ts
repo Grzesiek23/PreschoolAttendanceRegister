@@ -4,8 +4,11 @@ import API_CONSTANTS from './apiConstants';
 import { LogError } from '../utils/logger';
 import { User, UserLogin } from '../models/User';
 import { ApplicationUsers } from '../models/applicationUsers';
-import {ApplicationRole} from "../models/applicationRole";
-import {ApplicationUser, ApplicationUserEditFormValues, ApplicationUserFormValues} from "../models/applicationUser";
+import { ApplicationRole } from '../models/applicationRole';
+import { ApplicationUser, ApplicationUserEditFormValues, ApplicationUserFormValues } from '../models/applicationUser';
+import { SchoolYears } from '../models/schoolYears';
+import { SchoolYearDto, SchoolYearFormValues } from '../models/schoolYear';
+import * as dayjs from "dayjs";
 
 axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL as string;
 
@@ -72,10 +75,12 @@ const Account = {
 };
 
 const User = {
-    details: (id: string, signal?: AbortSignal) => requests.get<ApplicationUser>(`${API_CONSTANTS.USERS}/${id}`, signal),
+    details: (id: string, signal?: AbortSignal) =>
+        requests.get<ApplicationUser>(`${API_CONSTANTS.USERS}/${id}`, signal),
     list: (params: URLSearchParams, signal?: AbortSignal) =>
         requests.getWithParams<ApplicationUsers>(API_CONSTANTS.USERS, params, signal),
-    exists: (email: string, signal?: AbortSignal) => requests.get<boolean>(`${API_CONSTANTS.USERS}/exists/${email}`, signal),
+    exists: (email: string, signal?: AbortSignal) =>
+        requests.get<boolean>(`${API_CONSTANTS.USERS}/exists/${email}`, signal),
     create: (user: ApplicationUserFormValues, signal?: AbortSignal) =>
         axios.post<string>(API_CONSTANTS.USERS, user, { signal }),
     update: (userEditFormValues: ApplicationUserEditFormValues, signal?: AbortSignal) =>
@@ -86,9 +91,33 @@ const Role = {
     list: (signal?: AbortSignal) => requests.get<ApplicationRole[]>(API_CONSTANTS.ROLES, signal),
 };
 
+const SchoolYear = {
+    list: (params: URLSearchParams, signal?: AbortSignal) =>
+        requests.getWithParams<SchoolYears>(API_CONSTANTS.SCHOOL_YEARS, params, signal),
+    details: (id: number, signal?: AbortSignal) =>
+        requests.get<SchoolYearDto>(`${API_CONSTANTS.SCHOOL_YEARS}/${id}`, signal),
+    create: (schoolYear: SchoolYearFormValues, signal?: AbortSignal) => {
+        const payload = {
+            ...schoolYear,
+            startDate: dayjs(schoolYear.startDate).format('YYYY-MM-DD'),
+            endDate: dayjs(schoolYear.endDate).format('YYYY-MM-DD'),
+        };
+        return axios.post<string>(API_CONSTANTS.SCHOOL_YEARS, payload, { signal });
+    },
+    update: (schoolYear: SchoolYearFormValues, signal?: AbortSignal) => {
+        const payload = {
+            ...schoolYear,
+            startDate: dayjs(schoolYear.startDate).format('YYYY-MM-DD'),
+            endDate: dayjs(schoolYear.endDate).format('YYYY-MM-DD'),
+        };
+        return requests.put<void>(`${API_CONSTANTS.SCHOOL_YEARS}/${schoolYear.id}`, payload, signal);
+    },
+};
+
 const agent = {
     Account,
     User,
-    Role
+    Role,
+    SchoolYear,
 };
 export default agent;

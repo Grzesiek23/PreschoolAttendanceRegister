@@ -3,12 +3,14 @@ import CommonStore from './commonStore';
 import AccountStore from './accountStore';
 import UserStore from './userStore';
 import RoleStore from './roleStore';
+import SchoolYearStore from "./schoolYearStore";
 
 interface Store {
     commonStore: CommonStore;
     accountStore: AccountStore;
     userStore: UserStore;
     roleStore: RoleStore;
+    schoolYearStore: SchoolYearStore;
 }
 
 export const store: Store = {
@@ -16,6 +18,7 @@ export const store: Store = {
     accountStore: new AccountStore(),
     userStore: new UserStore(),
     roleStore: new RoleStore(),
+    schoolYearStore: new SchoolYearStore()
 };
 
 export const StoreContext = createContext(store);

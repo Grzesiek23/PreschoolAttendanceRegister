@@ -19,7 +19,7 @@ public static class CreateSchoolYearEndpoint
                 {
                     var id = await mediator.Send(new CreateSchoolYearCommand {SchoolYearRequest = request},
                         cancellationToken);
-                    return TypedResults.CreatedAtRoute(GetSchoolYearEndpoint.Name, new {id});
+                    return TypedResults.CreatedAtRoute(id, GetSchoolYearEndpoint.Name, new {id});
                 })
             .WithName(Name)
             .WithTags(ApiEndpoints.SchoolYears.Tag)

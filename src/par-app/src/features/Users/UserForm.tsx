@@ -37,7 +37,7 @@ const validationSchema = Yup.object({
         .nullable()
         .oneOf([Yup.ref('password'), null], 'Hasła muszą być takie same'),
     firstName: Yup.string().required('Imię jest wymagane'),
-    surname: Yup.string().required('Nazwisko jest wymagane'),
+    lastName: Yup.string().required('Nazwisko jest wymagane'),
     phoneNumber: Yup.string().required('Numer telefonu jest wymagany').min(9, 'Numer telefonu musi mieć 9 cyfr'),
 });
 
