@@ -7,6 +7,7 @@ public static class UserEndpointExtensions
         app.MapGetUserEndpoint();
         app.MapGetUsersEndpoint();
         app.MapCreateUserEndpoint();
+        app.MapUpdateUserEndpoint();
         app.MapCheckEmailExistsEndpoint();
         app.MapAssignUserToRoleEndpoint();
         app.MapRemoveUserFromRoleEndpoint();

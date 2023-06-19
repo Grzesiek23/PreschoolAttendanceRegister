@@ -3,68 +3,60 @@
     Button,
     Card,
     CardContent,
-    Checkbox,
     FormControl,
-    FormControlLabel,
     InputAdornment,
     InputLabel,
     MenuItem,
     Select,
-    Typography,
+    Typography
 } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from '@mui/material/TextField';
 import { URL_CONSTANTS } from '../../app/consts/urlConstants';
 import { useEffect, useState } from 'react';
-import { ApplicationUserFormValues } from '../../app/models/applicationUser';
+import { ApplicationUserEditFormValues } from '../../app/models/applicationUser';
 import * as Yup from 'yup';
 import { useStore } from '../../app/stores/store';
 import { useNavigate } from 'react-router-dom';
 import { onlyDigits } from '../../app/utils/validators';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 
 const validationSchema = Yup.object({
     email: Yup.string().required('Email jest wymagany').email('Niepoprawny format email'),
-    password: Yup.string()
-        .required('Hasło jest wymagane')
-        .min(6, 'Hasło musi mieć minimum 6 znaków')
-        .matches(
-            /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])/,
-            'Hasło musi zawierać przynajmniej jedną liczbę, jedną dużą literę i jeden znak specjalny',
-        ),
-    confirmPassword: Yup.string()
-        .required('Hasło jest wymagane')
-        .nullable()
-        .oneOf([Yup.ref('password'), null], 'Hasła muszą być takie same'),
     firstName: Yup.string().required('Imię jest wymagane'),
-    surname: Yup.string().required('Nazwisko jest wymagane'),
-    phoneNumber: Yup.string().required('Numer telefonu jest wymagany').min(9, 'Numer telefonu musi mieć 9 cyfr'),
+    lastName: Yup.string().required('Nazwisko jest wymagane'),
 });
 
 function UserForm() {
-    const [user, setUser] = useState<ApplicationUserFormValues>(new ApplicationUserFormValues());
-    const [emailError, setEmailError] = useState<string | undefined>();
+    const { id } = useParams();
+    const [user, setUser] = useState<ApplicationUserEditFormValues>(new ApplicationUserEditFormValues());
+    const [emailError] = useState<string | undefined>();
     const { userStore: store, roleStore } = useStore();
     const navigate = useNavigate();
 
-    const handleSubmit = async (values: ApplicationUserFormValues): Promise<void> => {
-        const success = await store.createUser(values);
+    const handleSubmit = async (values: ApplicationUserEditFormValues): Promise<void> => {
+        const success = await store.updateUser(values);
         if (success) {
-            navigate(URL_CONSTANTS.USERS_DETAILS(store.createdUserId));
-            toast.success('Dodano nowego użytkownika');
+            navigate(URL_CONSTANTS.USERS_DETAILS(store.user?.id!));
+            toast.success('Użytkownik został zaktualizowany');
         }
     };
 
     useEffect(() => {
         (async () => {
             await roleStore.loadRoles();
-            const role = roleStore.roles?.find((role) => role.name === 'User');
-            if (role) {
-                setUser((user) => ({ ...user, role: role.id }));
+
+            if (id) {
+                await store.loadUser(id);
+                setUser(new ApplicationUserEditFormValues(store.user));
+
+                const role = roleStore.roles?.find((role) => role.name === store.user?.role?.name);
+                if (role) {
+                    setUser((user) => ({ ...user, role: role.id }));
+                }
             }
         })();
-        
-        return () => store.clearUser();
     }, []);
 
     return (
@@ -89,59 +81,10 @@ function UserForm() {
                             <TextField
                                 name="email"
                                 label="Email"
-                                value={values.email}
-                                onChange={handleChange}
+                                value={store.user?.email || ''}
                                 size="small"
-                                onBlur={async (e) => {
-                                    handleBlur(e);
-                                    const emailSchema = Yup.string()
-                                        .required('Email jest wymagany')
-                                        .email('Niepoprawny format email');
-                                    try {
-                                        await emailSchema.validate(values.email);
-                                        const exists = await store.exists(values.email);
-                                        if (exists) {
-                                            setEmailError('Email jest już zajęty');
-                                        } else {
-                                            setEmailError(undefined);
-                                        }
-                                    } catch (error) {
-                                        if (error instanceof Yup.ValidationError) {
-                                            setEmailError(error.message);
-                                        } else {
-                                            setEmailError('Wystąpił nieoczekiwany błąd');
-                                        }
-                                    }
-                                }}
-                                error={touched.email && Boolean(emailError)}
-                                helperText={touched.email && emailError}
                                 autoComplete="username"
-                            />
-
-                            <TextField
-                                name="password"
-                                type="password"
-                                label="Hasło"
-                                value={values.password}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={touched.password && Boolean(errors.password)}
-                                helperText={touched.password && errors.password}
-                                size="small"
-                                autoComplete="new-password"
-                            />
-
-                            <TextField
-                                name="confirmPassword"
-                                type="password"
-                                label="Powtórz hasło"
-                                value={values.confirmPassword}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                                helperText={touched.confirmPassword && errors.confirmPassword}
-                                size="small"
-                                autoComplete="new-password"
+                                disabled={true}
                             />
 
                             <TextField
@@ -182,15 +125,15 @@ function UserForm() {
                                 }}
                             />
 
-                            {roleStore.roles && roleStore.roles.length > 0 && user.role !== '' && (
+                            {roleStore.roles && roleStore.roles.length > 0 && user.roleId !== '' && (
                                 <FormControl>
                                     <InputLabel id="roleLabel">Wybierz rolę</InputLabel>
                                     <Select
-                                        name="role"
+                                        name="roleId"
                                         labelId="roleLabel"
                                         label="Wybierz rolę"
                                         onChange={handleChange}
-                                        value={values.role}
+                                        value={values.roleId}
                                         size="small">
                                         {roleStore.roles?.map((name) => (
                                             <MenuItem key={name.id} value={name.id}>
@@ -201,22 +144,9 @@ function UserForm() {
                                 </FormControl>
                             )}
 
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        name="sendEmail"
-                                        value={values.sendEmail}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        checked={values.sendEmail}
-                                    />
-                                }
-                                label="Wyślij email z danymi logowania"
-                            />
-
                             <Box mt={2}>
                                 <Button type="submit" variant="contained" color="primary">
-                                    Utwórz konto
+                                    Zapisz zmiany
                                 </Button>
                                 <Button
                                     variant="contained"

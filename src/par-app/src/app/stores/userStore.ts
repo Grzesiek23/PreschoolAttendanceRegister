@@ -5,7 +5,7 @@ import { store } from './store';
 import agent from '../api/agent';
 import { LogError } from '../utils/logger';
 import { ApplicationUsers } from '../models/applicationUsers';
-import { ApplicationUser, ApplicationUserFormValues } from '../models/applicationUser';
+import {ApplicationUser, ApplicationUserEditFormValues, ApplicationUserFormValues} from '../models/applicationUser';
 
 export default class UserStore {
     constructor() {
@@ -41,6 +41,21 @@ export default class UserStore {
         this.users = user;
     };
 
+    loadUser = async (id: string): Promise<void> => {
+        this.createOrReplaceAbortController();
+        store.commonStore.setLoadingIndicator(true);
+        try {
+            const user = await agent.User.details(id, this.abortController!.signal);
+            if (user) {
+                this.setUser(user);
+            }
+        } catch (error) {
+            LogError(error);
+        } finally {
+            store.commonStore.setLoadingIndicator(false);
+        }
+    };
+    
     loadUsers = async (): Promise<void> => {
         try {
             this.createOrReplaceAbortController();
@@ -68,6 +83,7 @@ export default class UserStore {
         try {
             this.createOrReplaceAbortController();
 
+            store.commonStore.setLoadingIndicator(true);
             const response = await agent.User.create(userFormValues, this.abortController!.signal);
             if (response.status === 201 && response.data !== null) {
                 runInAction(() => {
@@ -79,9 +95,26 @@ export default class UserStore {
         } catch (error) {
             LogError(error);
             return false;
+        } finally {
+            store.commonStore.setLoadingIndicator(false);
         }
     };
 
+    updateUser = async (user: ApplicationUserEditFormValues): Promise<boolean> => {
+        try {
+            this.createOrReplaceAbortController();
+            store.commonStore.setLoadingIndicator(true);
+
+            await agent.User.update(user, this.abortController!.signal);
+            return true;
+        } catch (error) {
+            LogError(error);
+            return false;
+        } finally {
+            store.commonStore.setLoadingIndicator(false);
+        }
+    };
+    
     get axiosParams() {
         const params = new URLSearchParams();
         params.append('page', this.pagination.page.toString());

@@ -17,11 +17,9 @@ export interface ApplicationUser {
 export class ApplicationUserFormValues {
     id: string = '';
     firstName: string = '';
-    surname: string = '';
+    lastName: string = '';
     email: string = '';
     phoneNumber: string = '';
-    brokerId: number = 0;
-    branchId: number = 0;
     role: string = '';
     password: string = '';
     confirmPassword: string = '';
@@ -31,13 +29,33 @@ export class ApplicationUserFormValues {
         if (applicationUser) {
             this.id = applicationUser.id;
             this.firstName = applicationUser.firstName ?? '';
-            this.surname = applicationUser.lastName ?? '';
+            this.lastName = applicationUser.lastName ?? '';
             this.email = applicationUser.email ?? '';
             this.phoneNumber = applicationUser.phoneNumber ?? '';
             this.role = applicationUser.role?.name ?? '';
             this.password = '';
             this.confirmPassword = '';
             this.sendEmail = false;
+        }
+    }
+}
+
+export class ApplicationUserEditFormValues {
+    id: string = '';
+    firstName: string = '';
+    lastName: string = '';
+    email: string = '';
+    phoneNumber: string = '';
+    roleId: string = '';
+
+    constructor(applicationUser?: ApplicationUser) {
+        if (applicationUser) {
+            this.id = applicationUser.id ?? '';
+            this.firstName = applicationUser.firstName ?? '';
+            this.lastName = applicationUser.lastName ?? '';
+            this.email = applicationUser.email ?? '';
+            this.phoneNumber = applicationUser.phoneNumber ?? '';
+            this.roleId = applicationUser.role?.id ?? '';
         }
     }
 }

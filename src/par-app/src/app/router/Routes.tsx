@@ -6,6 +6,7 @@ import RequireAuth from './RequireAuth';
 import Home from "../../features/Home";
 import UsersList from "../../features/Users";
 import UserForm from "../../features/Users/UserForm";
+import UserEditForm from "../../features/Users/UserEditForm";
 
 export const routes: RouteObject[] = [
     {
@@ -23,6 +24,7 @@ export const routes: RouteObject[] = [
                         path: 'users/create',
                         element: <UserForm key="create" />,
                     },
+                    { path: 'users/:id/edit', element: <UserEditForm key="manage" /> },
                 ],
             },
         ],
