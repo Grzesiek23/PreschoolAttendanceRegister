@@ -32,6 +32,8 @@ public class AssignUserToRoleHandler : IRequestHandler<AssignUserToRoleCommand, 
         if (role == null)
             throw new NotFoundException(nameof(AssignUserToRoleCommand), nameof(ApplicationRole), request.RoleId);
 
+        await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
+        
         var result = await _userManager.AddToRoleAsync(user!, role!.Name!);
 
         if (result.Succeeded) return Unit.Value;
