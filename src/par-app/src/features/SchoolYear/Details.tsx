@@ -41,6 +41,16 @@ function SchoolYearDetails() {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="body1" component="div">
+                                    Nazwa:
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="h6" component="div">
+                                    {store.schoolYear.name}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="body1" component="div">
                                     Początek:
                                 </Typography>
                             </Grid>

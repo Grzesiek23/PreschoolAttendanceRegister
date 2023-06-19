@@ -11,6 +11,14 @@ import {URL_CONSTANTS} from "../../app/consts/urlConstants";
 
 const columns: GridColDef[] = [
     {
+        field: 'name',
+        headerName: 'Nazwa',
+        flex: 20,
+        headerAlign: 'center',
+        align: 'center',
+        disableColumnMenu: true,
+    },
+    {
         field: 'startDate',
         headerName: 'Początek',
         flex: 20,
@@ -65,7 +73,7 @@ function SchoolYearList() {
 
     return (
         <Box>
-            <HeaderBox title={'Lista użytkowników'} />
+            <HeaderBox title={'Lista roczników szkolnych'} />
             <Paper sx={{ mb: 2, p: 2 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Button variant="contained" color="success" onClick={() => navigate('/school-years/create')}>

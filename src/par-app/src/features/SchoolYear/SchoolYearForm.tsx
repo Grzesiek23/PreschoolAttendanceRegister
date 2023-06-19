@@ -9,14 +9,15 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { SchoolYearFormValues } from '../../app/models/schoolYear';
 import { useParams } from 'react-router';
-import * as dayjs from "dayjs";
-import {observer} from "mobx-react-lite";
+import * as dayjs from 'dayjs';
+import { observer } from 'mobx-react-lite';
+import TextField from '@mui/material/TextField';
 
 const validationSchema = Yup.object({});
 
 function SchoolYearForm() {
     const { id } = useParams();
-    const [ schoolYear, setSchoolYear] = useState<SchoolYearFormValues>(new SchoolYearFormValues());
+    const [schoolYear, setSchoolYear] = useState<SchoolYearFormValues>(new SchoolYearFormValues());
     const { schoolYearStore: store } = useStore();
     const navigate = useNavigate();
 
@@ -59,16 +60,25 @@ function SchoolYearForm() {
                     initialValues={schoolYear}
                     onSubmit={handleSubmit}
                     enableReinitialize>
-                    {({ values, handleChange, handleBlur, setFieldValue }) => (
+                    {({ values, handleChange, handleBlur, setFieldValue, touched, errors }) => (
                         <Form style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
+                            <TextField
+                                name="name"
+                                label="Nazwa"
+                                value={values.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={touched.name && Boolean(errors.name)}
+                                helperText={touched.name && errors.name}
+                                size="small"
+                            />
+
                             <FormControl fullWidth={true}>
                                 <DatePicker
                                     label="Początek"
                                     slotProps={{ textField: { size: 'small' } }}
                                     value={dayjs(values.startDate)}
-                                    onChange={(value) =>
-                                        setFieldValue('startDate', value ?? new Date())
-                                    }
+                                    onChange={(value) => setFieldValue('startDate', value ?? new Date())}
                                 />
                             </FormControl>
 
@@ -77,9 +87,7 @@ function SchoolYearForm() {
                                     label="Koniec"
                                     slotProps={{ textField: { size: 'small' } }}
                                     value={dayjs(values.endDate)}
-                                    onChange={(value) =>
-                                        setFieldValue('endDate', value ?? new Date())
-                                    }
+                                    onChange={(value) => setFieldValue('endDate', value ?? new Date())}
                                 />
                             </FormControl>
 
@@ -98,7 +106,7 @@ function SchoolYearForm() {
 
                             <Box mt={2}>
                                 <Button type="submit" variant="contained" color="primary">
-                                    Utwórz rok szkolny
+                                    {schoolYear.id ? 'Zapisz zmiany' : 'Utwórz rok szkolny'}
                                 </Button>
                                 <Button
                                     variant="contained"
@@ -106,7 +114,11 @@ function SchoolYearForm() {
                                     sx={{ ml: 3 }}
                                     onClick={() => {
                                         store.clearSchoolYear();
-                                        navigate(URL_CONSTANTS.SCHOOL_YEARS);
+                                        if (schoolYear.id) {
+                                            navigate(URL_CONSTANTS.SCHOOL_YEARS_DETAILS(schoolYear.id));
+                                        } else {
+                                            navigate(URL_CONSTANTS.SCHOOL_YEARS);
+                                        }
                                     }}>
                                     Anuluj
                                 </Button>
