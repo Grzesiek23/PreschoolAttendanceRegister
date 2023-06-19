@@ -8,7 +8,7 @@
     InputLabel,
     MenuItem,
     Select,
-    Typography
+    Typography,
 } from '@mui/material';
 import { Form, Formik } from 'formik';
 import TextField from '@mui/material/TextField';
@@ -28,7 +28,7 @@ const validationSchema = Yup.object({
     lastName: Yup.string().required('Nazwisko jest wymagane'),
 });
 
-function UserForm() {
+function UserEditForm() {
     const { id } = useParams();
     const [user, setUser] = useState<ApplicationUserEditFormValues>(new ApplicationUserEditFormValues());
     const [emailError] = useState<string | undefined>();
@@ -154,7 +154,7 @@ function UserForm() {
                                     sx={{ ml: 3 }}
                                     onClick={() => {
                                         store.clearUser();
-                                        navigate(URL_CONSTANTS.USERS);
+                                        navigate(URL_CONSTANTS.USERS_DETAILS(id!));
                                     }}>
                                     Anuluj
                                 </Button>
@@ -167,4 +167,4 @@ function UserForm() {
     );
 }
 
-export default UserForm;
+export default UserEditForm;

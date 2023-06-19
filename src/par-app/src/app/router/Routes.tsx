@@ -7,6 +7,7 @@ import Home from "../../features/Home";
 import UsersList from "../../features/Users";
 import UserForm from "../../features/Users/UserForm";
 import UserEditForm from "../../features/Users/UserEditForm";
+import UserDetails from "../../features/Users/Details";
 
 export const routes: RouteObject[] = [
     {
@@ -25,6 +26,7 @@ export const routes: RouteObject[] = [
                         element: <UserForm key="create" />,
                     },
                     { path: 'users/:id/edit', element: <UserEditForm key="manage" /> },
+                    { path: 'users/:id', element: <UserDetails key="details" /> },
                 ],
             },
         ],
