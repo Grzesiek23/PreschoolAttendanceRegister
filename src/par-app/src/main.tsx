@@ -4,11 +4,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import { store, StoreContext } from './app/stores/store';
-import {themeOptions} from "./app/theme.ts";
+import {themeOptions} from "./app/theme";
 import {plPL} from "@mui/x-data-grid";
 import { plPL as corePlPL } from '@mui/material/locale';
 import {RouterProvider} from "react-router-dom";
-import {router} from "./app/router/Routes.tsx";
+import {router} from "./app/router/Routes";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 const theme = createTheme(themeOptions('light'), plPL, corePlPL);
