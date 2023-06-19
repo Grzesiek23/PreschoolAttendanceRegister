@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PAR.API.Endpoints;
@@ -8,6 +9,7 @@ using PAR.Infrastructure;
 using PAR.Persistence;
 using PAR.Persistence.Context;
 using Serilog;
+using ILogger = Serilog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +70,22 @@ var app = builder.Build();
 
 var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
 loggerFactory.AddSerilog();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        await SeedContext.SeedDefaultData(userManager, roleManager);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger>();
+        logger.Error(ex, "An error occurred seeding the DB");
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {
