@@ -19,7 +19,7 @@ public static class CreateGroupEndpoint
                 {
                     var id = await mediator.Send(new CreateGroupCommand {GroupRequest = request},
                         cancellationToken);
-                    return TypedResults.CreatedAtRoute(GetGroupEndpoint.Name, new {id});
+                    return TypedResults.CreatedAtRoute(id, GetGroupEndpoint.Name, new {id});
                 })
             .WithName(Name)
             .WithTags(ApiEndpoints.Groups.Tag)
