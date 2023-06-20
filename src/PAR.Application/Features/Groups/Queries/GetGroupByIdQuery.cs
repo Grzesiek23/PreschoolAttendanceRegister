@@ -22,7 +22,10 @@ public class GetGroupByIdHandler : IRequestHandler<GetGroupByIdQuery, GroupDto?>
 
     public async Task<GroupDto?> Handle(GetGroupByIdQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Groups.FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
+        var entity = await _dbContext.Groups
+            .Include(x => x.Teacher)
+            .Include(x => x.SchoolYear)
+            .FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
 
         return entity?.AsDto();
     }
