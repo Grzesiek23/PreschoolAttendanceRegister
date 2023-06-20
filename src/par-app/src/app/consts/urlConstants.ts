@@ -6,7 +6,9 @@ export const URL_CONSTANTS = {
     GROUPS_EDIT: (id: number) => `/groups/${id}/edit`,
     
     PRESCHOOLERS: '/preschoolers',
-
+    PRESCHOOLERS_DETAILS:  (id: number) => `/preschoolers/${id}`,
+    PRESCHOOLERS_EDIT: (id: number) => `/preschoolers/${id}/edit`,
+    
     USERS: '/users',
     USERS_DETAILS: (id: number | string) => `/users/${id}`,
     USERS_EDIT: (id: string) => `/users/${id}/edit`,

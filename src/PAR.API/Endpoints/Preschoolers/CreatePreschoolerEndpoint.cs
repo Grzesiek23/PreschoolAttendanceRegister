@@ -19,7 +19,7 @@ public static class CreatePreschoolerEndpoint
                 {
                     var id = await mediator.Send(new CreatePreschoolerCommand {PreschoolerRequest = request},
                         cancellationToken);
-                    return TypedResults.CreatedAtRoute(GetPreschoolerEndpoint.Name, new {id});
+                    return TypedResults.CreatedAtRoute(id, GetPreschoolerEndpoint.Name, new {id});
                 })
             .WithName(Name)
             .WithTags(ApiEndpoints.Preschoolers.Tag)

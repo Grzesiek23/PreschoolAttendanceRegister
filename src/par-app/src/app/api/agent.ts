@@ -13,6 +13,8 @@ import {GroupDto, GroupFormValues} from "../models/group";
 import {PagedResponse} from "../models/common/pagedResponse";
 import {GroupDetailDto} from "../models/groupDetail";
 import {NumberList} from "../models/numberList";
+import {PreschoolerDto, PreschoolerFormValues} from "../models/preschooler";
+import {PreschoolerDetailDto} from "../models/preschoolerDetail";
 
 axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL as string;
 
@@ -130,11 +132,22 @@ const Group = {
         requests.put<void>(`${API_CONSTANTS.GROUPS}/${group.id}`, group, signal),
 }
 
+const Preschooler = {
+    list: (params: URLSearchParams, signal?: AbortSignal) => requests.getWithParams<PagedResponse<PreschoolerDetailDto>>(`${API_CONSTANTS.PRESCHOOLERS}/details`, params, signal),
+    listOptions: () => requests.get<NumberList[]>(`${API_CONSTANTS.PRESCHOOLERS}/options`),
+    details: (id: number, signal?: AbortSignal) => requests.get<PreschoolerDto>(`${API_CONSTANTS.PRESCHOOLERS}/${id}`, signal),
+    create: (preschooler: PreschoolerFormValues, signal?: AbortSignal) =>
+        axios.post<string>(API_CONSTANTS.PRESCHOOLERS, preschooler, { signal }),
+    update: (preschooler: PreschoolerFormValues, signal?: AbortSignal) =>
+        requests.put<void>(`${API_CONSTANTS.PRESCHOOLERS}/${preschooler.id}`, preschooler, signal),
+}
+
 const agent = {
     Account,
     User,
     Role,
     SchoolYear,
     Group,
+    Preschooler,
 };
 export default agent;

@@ -68,6 +68,7 @@ public static class ApiEndpoints
         public const string Create = $"{ApiBase}/preschoolers";
         public const string Get = $"{ApiBase}/preschoolers/{{id:int}}";
         public const string GetAll = $"{ApiBase}/preschoolers";
+        public const string GetAllWithDetails = $"{ApiBase}/preschoolers/details";
         public const string Update = $"{ApiBase}/preschoolers/{{id:int}}";
         public const string Delete = $"{ApiBase}/preschoolers/{{id:int}}";
     }

@@ -29,6 +29,18 @@ public static class PreschoolerMapping
         };
     }
     
+    public static PreschoolerDetailsDto AsDetailDto(this Preschooler entity)
+    {
+        return new PreschoolerDetailsDto
+        {
+            Id = entity.Id,
+            FirstName = entity.FirstName,
+            LastName = entity.LastName,
+            GroupId = entity.Group.Id,
+            GroupName = entity.Group.Name,
+        };
+    }
+    
     public static Preschooler AsEntity(this PreschoolerRequest request)
     {
         return new Preschooler

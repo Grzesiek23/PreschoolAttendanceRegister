@@ -20,7 +20,7 @@ public static class GetPreschoolersEndpoint
                     return TypedResults.Ok(result);
                 })
             .WithName(Name)
-            .WithTags(ApiEndpoints.SchoolYears.Tag)
+            .WithTags(ApiEndpoints.Preschoolers.Tag)
             .Produces<PagedResponse<PreschoolerDto>>()
             .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError)

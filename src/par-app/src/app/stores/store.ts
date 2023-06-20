@@ -5,6 +5,7 @@ import UserStore from './userStore';
 import RoleStore from './roleStore';
 import SchoolYearStore from "./schoolYearStore";
 import GroupStore from "./groupStore";
+import PreschoolerStore from "./preschoolerStore";
 
 interface Store {
     commonStore: CommonStore;
@@ -13,6 +14,7 @@ interface Store {
     roleStore: RoleStore;
     schoolYearStore: SchoolYearStore;
     groupStore: GroupStore;
+    preschoolerStore: PreschoolerStore;
 }
 
 export const store: Store = {
@@ -22,6 +24,7 @@ export const store: Store = {
     roleStore: new RoleStore(),
     schoolYearStore: new SchoolYearStore(),
     groupStore: new GroupStore(),
+    preschoolerStore: new PreschoolerStore()
 };
 
 export const StoreContext = createContext(store);

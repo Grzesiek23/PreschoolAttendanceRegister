@@ -1,26 +1,24 @@
 ﻿import {makeAutoObservable, runInAction} from "mobx";
-import {GroupDto, GroupFormValues} from "../models/group";
 import {GridPaginationModel, GridSortModel} from "@mui/x-data-grid";
 import {GRID_CONSTANTS} from "../consts/gridConstants";
 import {LogError} from "../utils/logger";
 import agent from "../api/agent";
 import {PagedResponse} from "../models/common/pagedResponse";
-import {GroupDetailDto} from "../models/groupDetail";
 import {store} from "./store";
-import {NumberList} from "../models/numberList";
+import {PreschoolerDto, PreschoolerFormValues} from "../models/preschooler";
+import {PreschoolerDetailDto} from "../models/preschoolerDetail";
 
-export default class GroupStore{
+export default class PreschoolerStore{
     constructor() {
         makeAutoObservable(this);
     }
     
-    group: GroupDto | undefined = undefined;
-    groups: PagedResponse<GroupDetailDto> | undefined = undefined;
-    groupListOption: NumberList[] = [];
+    preschooler: PreschoolerDto | undefined = undefined;
+    preschoolers: PagedResponse<PreschoolerDetailDto> | undefined = undefined;
     pagination: GridPaginationModel = { page: 0, pageSize: GRID_CONSTANTS.DEFAULT_PAGE_SIZE };
     sortModel: GridSortModel | undefined = [{ field: 'id', sort: 'asc' }];
     abortController: AbortController | undefined = undefined;
-    createdGroupId: number = 0;
+    createdPreschoolerId: number = 0;
 
     createOrReplaceAbortController = () => {
         if (this.abortController) {
@@ -29,66 +27,50 @@ export default class GroupStore{
         this.abortController = new AbortController();
     };
     
-    setGroup = (group: GroupDto) => {
-        this.group = group;
+    setPreschooler = (group: PreschoolerDto) => {
+        this.preschooler = group;
     }
     
-    clearGroup = () => {
-        this.group = undefined;
+    clearPreschooler = () => {
+        this.preschooler = undefined;
     }
     
-    setGroups = (groups: PagedResponse<GroupDetailDto>) => {
-        this.groups = groups;
+    setPreschoolers = (preschoolers: PagedResponse<PreschoolerDetailDto>) => {
+        this.preschoolers = preschoolers;
     }
     
-    setGroupListOption = (groups: NumberList[]) => {
-        this.groupListOption = groups;
-    }
-    
-    loadGroup = async (id: number): Promise<void> => {
+    loadPreschooler = async (id: number): Promise<void> => {
         this.createOrReplaceAbortController();
         try {
-            const group = await agent.Group.details(id, this.abortController!.signal);
-            if (group) {
-                this.setGroup(group);
+            const preschooler = await agent.Preschooler.details(id, this.abortController!.signal);
+            if (preschooler) {
+                this.setPreschooler(preschooler);
             }
         } catch (error) {
             LogError(error);
         }
     }
     
-    loadGroups = async (): Promise<void> => {
+    loadPreschoolers = async (): Promise<void> => {
         try {
             this.createOrReplaceAbortController();
-            const groups = await agent.Group.list(this.axiosParams, this.abortController!.signal);
-            if (groups) {
-                this.setGroups(groups);
+            const preschoolers = await agent.Preschooler.list(this.axiosParams, this.abortController!.signal);
+            if (preschoolers) {
+                this.setPreschoolers(preschoolers);
             }
         } catch (error) {
             LogError(error);
         }
     }
 
-    loadGroupsOptionList = async (): Promise<void> => {
-        try {
-            this.createOrReplaceAbortController();
-            const users = await agent.Group.listOptions();
-            this.setGroupListOption(users);
-        } catch (error) {
-            LogError(error);
-        } finally {
-            store.commonStore.setLoadingIndicator(false);
-        }
-    };
-    
-    createGroup = async (groupFormValues: GroupFormValues): Promise<boolean> => {
+    createPreschooler = async (preschoolerFormValues: PreschoolerFormValues): Promise<boolean> => {
         try {
             this.createOrReplaceAbortController();
             store.commonStore.setLoadingIndicator(true);
-            const response = await agent.Group.create(groupFormValues, this.abortController!.signal);
+            const response = await agent.Preschooler.create(preschoolerFormValues, this.abortController!.signal);
             if (response.status === 201 && response.data !== null) {
                 runInAction(() => {
-                    this.createdGroupId = parseInt(response.data);
+                    this.createdPreschoolerId = parseInt(response.data);
                 });
                 return true;
             }
@@ -101,11 +83,11 @@ export default class GroupStore{
         }
     };
 
-    updateGroup = async (groupFormValues: GroupFormValues): Promise<boolean> => {
+    updatePreschooler = async (preschoolerFormValues: PreschoolerFormValues): Promise<boolean> => {
         try {
             this.createOrReplaceAbortController();
             store.commonStore.setLoadingIndicator(true);
-            await agent.Group.update(groupFormValues, this.abortController!.signal);
+            await agent.Preschooler.update(preschoolerFormValues, this.abortController!.signal);
             return true;
         } catch (error) {
             LogError(error);
@@ -129,13 +111,13 @@ export default class GroupStore{
         runInAction(() => {
             this.pagination = paginationModel;
         });
-        await this.loadGroups();
+        await this.loadPreschoolers();
     };
 
     handleSortModelChange = async (sortModel: GridSortModel): Promise<void> => {
         runInAction(() => {
             this.sortModel = sortModel;
         });
-        await this.loadGroups();
+        await this.loadPreschoolers();
     };
 }

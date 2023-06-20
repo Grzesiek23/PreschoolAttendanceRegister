@@ -86,7 +86,6 @@ function Sidebar() {
                 <MenuItem icon={<HomeIcon />} to="/home" label="Strona główna" />
                 <Divider sx={{ backgroundColor: 'gray', mx: 2 }} />
                 <MenuItem icon={<PeopleAltIcon />} to={URL_CONSTANTS.PRESCHOOLERS} label="Dzieci" />
-                <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.GROUPS} label="Grupy" />
                 <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.USERS} label="Użytkownicy" />
                 <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.SCHOOL_YEARS} label="Roczniki" />
                 <MenuItem icon={<ApiIcon />} to={URL_CONSTANTS.GROUPS} label="Grupy" />

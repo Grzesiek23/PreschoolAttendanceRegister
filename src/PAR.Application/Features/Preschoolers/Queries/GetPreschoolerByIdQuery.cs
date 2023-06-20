@@ -22,7 +22,9 @@ public class GetPreschoolerByIdHandler : IRequestHandler<GetPreschoolerByIdQuery
 
     public async Task<PreschoolerDto?> Handle(GetPreschoolerByIdQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Preschoolers.FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
+        var entity = await _dbContext.Preschoolers
+            .Include(x => x.Group)
+            .FirstOrDefaultAsync(x => x.Id == request.Id && x.IsActive, cancellationToken);
 
         return entity?.AsDto();
     }
