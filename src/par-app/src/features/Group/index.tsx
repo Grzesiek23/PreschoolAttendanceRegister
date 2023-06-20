@@ -25,14 +25,20 @@ const columns: GridColDef[] = [
         headerAlign: 'center',
         align: 'center',
         disableColumnMenu: true,
+        renderCell: (params: GridCellParams) => (
+            <NavLink to={URL_CONSTANTS.TEACHERS_DETAILS(params.row.teacherId)}>{params.row.teacherName as string}</NavLink>
+        ),
     },
     {
-        field: 'schoolYear.name',
+        field: 'schoolYearName',
         headerName: 'Rok szkolny',
         flex: 20,
         headerAlign: 'center',
         align: 'center',
         disableColumnMenu: true,
+        renderCell: (params: GridCellParams) => (
+            <NavLink to={URL_CONSTANTS.SCHOOL_YEARS_DETAILS(params.row.schoolYearId)}>{params.row.schoolYearName as string}</NavLink>
+        ),
     },
     {
         field: 'id',
@@ -65,8 +71,8 @@ function GroupList() {
             <HeaderBox title={'Lista grup'} />
             <Paper sx={{ mb: 2, p: 2 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button variant="contained" color="success" onClick={() => navigate('/school-years/create')}>
-                        Dodaj rok szkolny
+                    <Button variant="contained" color="success" onClick={() => navigate('/groups/create')}>
+                        Dodaj grupę
                     </Button>
                 </Box>
             </Paper>

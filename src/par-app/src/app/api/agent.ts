@@ -9,9 +9,10 @@ import { ApplicationUser, ApplicationUserEditFormValues, ApplicationUserFormValu
 import { SchoolYears } from '../models/schoolYears';
 import { SchoolYearDto, SchoolYearFormValues } from '../models/schoolYear';
 import * as dayjs from "dayjs";
-import {GroupDto} from "../models/group";
+import {GroupDto, GroupFormValues} from "../models/group";
 import {PagedResponse} from "../models/common/pagedResponse";
 import {GroupDetailDto} from "../models/groupDetail";
+import {NumberList} from "../models/numberList";
 
 axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL as string;
 
@@ -82,6 +83,7 @@ const User = {
         requests.get<ApplicationUser>(`${API_CONSTANTS.USERS}/${id}`, signal),
     list: (params: URLSearchParams, signal?: AbortSignal) =>
         requests.getWithParams<ApplicationUsers>(API_CONSTANTS.USERS, params, signal),
+    listOptions: () => requests.get<NumberList[]>(`${API_CONSTANTS.USERS}/options`),
     exists: (email: string, signal?: AbortSignal) =>
         requests.get<boolean>(`${API_CONSTANTS.USERS}/exists/${email}`, signal),
     create: (user: ApplicationUserFormValues, signal?: AbortSignal) =>
@@ -97,6 +99,7 @@ const Role = {
 const SchoolYear = {
     list: (params: URLSearchParams, signal?: AbortSignal) =>
         requests.getWithParams<SchoolYears>(API_CONSTANTS.SCHOOL_YEARS, params, signal),
+    listOptions: () => requests.get<NumberList[]>(`${API_CONSTANTS.SCHOOL_YEARS}/options`),
     details: (id: number, signal?: AbortSignal) =>
         requests.get<SchoolYearDto>(`${API_CONSTANTS.SCHOOL_YEARS}/${id}`, signal),
     create: (schoolYear: SchoolYearFormValues, signal?: AbortSignal) => {
@@ -120,6 +123,10 @@ const SchoolYear = {
 const Group = {
     list: (params: URLSearchParams, signal?: AbortSignal) => requests.getWithParams<PagedResponse<GroupDetailDto>>(`${API_CONSTANTS.GROUPS}/details`, params, signal),
     details: (id: number, signal?: AbortSignal) => requests.get<GroupDto>(`${API_CONSTANTS.GROUPS}/${id}`, signal),
+    create: (group: GroupFormValues, signal?: AbortSignal) =>
+        axios.post<string>(API_CONSTANTS.GROUPS, group, { signal }),
+    update: (group: GroupFormValues, signal?: AbortSignal) =>
+        requests.put<void>(`${API_CONSTANTS.GROUPS}/${group.id}`, group, signal),
 }
 
 const agent = {

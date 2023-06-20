@@ -11,3 +11,19 @@ export interface GroupDto extends BaseDto {
     teacher: ApplicationUser | null;
     preschoolers: PreschoolerDto[];
 }
+
+export class GroupFormValues {
+    id: number = 0;
+    name: string = '';
+    teacherId: number = 0;
+    schoolYearId: number = 0;
+
+    constructor(schoolYear?: GroupDto) {
+        if (schoolYear) {
+            this.id = schoolYear.id;
+            this.name = schoolYear.name;
+            this.teacherId = schoolYear.teacherId;
+            this.schoolYearId = schoolYear.schoolYearId;
+        }
+    }
+}

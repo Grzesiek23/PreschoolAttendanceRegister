@@ -12,6 +12,8 @@ import SchoolYearList from "../../features/SchoolYear";
 import SchoolYearForm from "../../features/SchoolYear/SchoolYearForm";
 import SchoolYearDetails from "../../features/SchoolYear/Details";
 import GroupList from "../../features/Group";
+import GroupDetails from "../../features/Group/Details";
+import GroupForm from "../../features/Group/GroupForm";
 
 export const routes: RouteObject[] = [
     {
@@ -33,6 +35,12 @@ export const routes: RouteObject[] = [
                     { path: 'school-years/:id/edit', element: <SchoolYearForm key="manage" /> },
 
                     { path: 'groups', element: <GroupList /> },
+                    {
+                        path: 'groups/create',
+                        element: <GroupForm key="create" />,
+                    },
+                    { path: 'groups/:id', element: <GroupDetails /> },
+                    { path: 'groups/:id/edit', element: <GroupForm key="manage" /> },
                     
                     
                     { path: 'users', element: <UsersList /> },

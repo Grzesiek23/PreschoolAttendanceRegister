@@ -1,11 +1,12 @@
 ﻿import {makeAutoObservable, runInAction} from "mobx";
-import {GroupDto} from "../models/group";
+import {GroupDto, GroupFormValues} from "../models/group";
 import {GridPaginationModel, GridSortModel} from "@mui/x-data-grid";
 import {GRID_CONSTANTS} from "../consts/gridConstants";
 import {LogError} from "../utils/logger";
 import agent from "../api/agent";
 import {PagedResponse} from "../models/common/pagedResponse";
 import {GroupDetailDto} from "../models/groupDetail";
+import {store} from "./store";
 
 export default class GroupStore{
     constructor() {
@@ -17,6 +18,7 @@ export default class GroupStore{
     pagination: GridPaginationModel = { page: 0, pageSize: GRID_CONSTANTS.DEFAULT_PAGE_SIZE };
     sortModel: GridSortModel | undefined = [{ field: 'id', sort: 'asc' }];
     abortController: AbortController | undefined = undefined;
+    createdGroupId: number = 0;
 
     createOrReplaceAbortController = () => {
         if (this.abortController) {
@@ -61,6 +63,40 @@ export default class GroupStore{
         }
     }
 
+    createGroup = async (groupFormValues: GroupFormValues): Promise<boolean> => {
+        try {
+            this.createOrReplaceAbortController();
+            store.commonStore.setLoadingIndicator(true);
+            const response = await agent.Group.create(groupFormValues, this.abortController!.signal);
+            if (response.status === 201 && response.data !== null) {
+                runInAction(() => {
+                    this.createdGroupId = parseInt(response.data);
+                });
+                return true;
+            }
+            return false;
+        } catch (error) {
+            LogError(error);
+            return false;
+        } finally {
+            store.commonStore.setLoadingIndicator(false);
+        }
+    };
+
+    updateGroup = async (groupFormValues: GroupFormValues): Promise<boolean> => {
+        try {
+            this.createOrReplaceAbortController();
+            store.commonStore.setLoadingIndicator(true);
+            await agent.Group.update(groupFormValues, this.abortController!.signal);
+            return true;
+        } catch (error) {
+            LogError(error);
+            return false;
+        } finally {
+            store.commonStore.setLoadingIndicator(false);
+        }
+    };
+    
     get axiosParams() {
         const params = new URLSearchParams();
         params.append('page', this.pagination.page.toString());

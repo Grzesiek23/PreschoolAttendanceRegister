@@ -3,6 +3,7 @@ export const URL_CONSTANTS = {
     NOT_FOUND: '/not-found',
     GROUPS: '/groups',
     GROUPS_DETAILS: (id: number) => `/groups/${id}`,
+    GROUPS_EDIT: (id: number) => `/groups/${id}/edit`,
     
     PRESCHOOLERS: '/preschoolers',
 
@@ -16,4 +17,7 @@ export const URL_CONSTANTS = {
     SCHOOL_YEARS_DETAILS: (id: number) => `/school-years/${id}`,
     SCHOOL_YEARS_EDIT: (id: number) => `/school-years/${id}/edit`,
     SCHOOL_YEARS_CREATE: '/school-years/create',
+
+    TEACHERS: '/teachers',
+    TEACHERS_DETAILS: (id: number) => `/teachers/${id}`,
 };
