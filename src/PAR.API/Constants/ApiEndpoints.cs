@@ -46,6 +46,7 @@ public static class ApiEndpoints
         public const string Get = $"{ApiBase}/groups/{{id:int}}";
         public const string GetAll = $"{ApiBase}/groups";
         public const string GetAllWithDetails = $"{ApiBase}/groups/details";
+        public const string GetAllAsOptionList = $"{ApiBase}/groups/options";
         public const string Update = $"{ApiBase}/groups/{{id:int}}";
         public const string Delete = $"{ApiBase}/groups/{{id:int}}";
     }

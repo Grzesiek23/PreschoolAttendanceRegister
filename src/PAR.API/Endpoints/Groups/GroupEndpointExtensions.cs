@@ -10,6 +10,7 @@ public static class GroupEndpointExtensions
         app.MapDeleteGroupEndpoint();
         app.MapGetGroupsEndpoint();
         app.MapGetGroupsDetailsEndpoint();
+        app.MapGetGroupsAsOptionListEndpoint();
         return app;
     }
 }

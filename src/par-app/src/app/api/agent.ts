@@ -122,6 +122,7 @@ const SchoolYear = {
 
 const Group = {
     list: (params: URLSearchParams, signal?: AbortSignal) => requests.getWithParams<PagedResponse<GroupDetailDto>>(`${API_CONSTANTS.GROUPS}/details`, params, signal),
+    listOptions: () => requests.get<NumberList[]>(`${API_CONSTANTS.GROUPS}/options`),
     details: (id: number, signal?: AbortSignal) => requests.get<GroupDto>(`${API_CONSTANTS.GROUPS}/${id}`, signal),
     create: (group: GroupFormValues, signal?: AbortSignal) =>
         axios.post<string>(API_CONSTANTS.GROUPS, group, { signal }),
