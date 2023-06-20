@@ -21,6 +21,7 @@ public static class ApiEndpoints
         public const string Tag = "User";
         public const string Get = $"{ApiBase}/users/{{id:int}}";
         public const string GetAll = $"{ApiBase}/users";
+        public const string GetAllAsOptionList = $"{ApiBase}/users/options";
         public const string Create = $"{ApiBase}/users";
         public const string Update = $"{ApiBase}/users/{{id:int}}";
         public const string Exists = $"{ApiBase}/users/exists/{{email}}";
@@ -55,6 +56,7 @@ public static class ApiEndpoints
         public const string Create = $"{ApiBase}/school-years";
         public const string Get = $"{ApiBase}/school-years/{{id:int}}";
         public const string GetAll = $"{ApiBase}/school-years";
+        public const string GetAllAsOptionList = $"{ApiBase}/school-years/options";
         public const string Update = $"{ApiBase}/school-years/{{id:int}}";
         public const string Delete = $"{ApiBase}/school-years/{{id:int}}";
     }
