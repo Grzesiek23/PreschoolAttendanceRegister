@@ -6,6 +6,7 @@ public static class UserEndpointExtensions
     {
         app.MapGetUserEndpoint();
         app.MapGetUsersEndpoint();
+        app.MapGetUsersAsOptionListEndpoint();
         app.MapCreateUserEndpoint();
         app.MapUpdateUserEndpoint();
         app.MapCheckEmailExistsEndpoint();
