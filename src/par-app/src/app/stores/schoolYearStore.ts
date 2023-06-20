@@ -6,6 +6,7 @@ import agent from '../api/agent';
 import { LogError } from '../utils/logger';
 import {SchoolYearDto, SchoolYearFormValues} from "../models/schoolYear";
 import {SchoolYears} from "../models/schoolYears";
+import {NumberList} from "../models/numberList";
 
 export default class SchoolYearStore {
     constructor() {
@@ -14,6 +15,7 @@ export default class SchoolYearStore {
 
     schoolYear: SchoolYearDto | undefined = undefined;
     schoolYears: SchoolYears | undefined = undefined;
+    schoolYearListOption: NumberList[] = [];
     pagination: GridPaginationModel = { page: 0, pageSize: GRID_CONSTANTS.DEFAULT_PAGE_SIZE };
     sortModel: GridSortModel | undefined = [{ field: 'id', sort: 'asc' }];
     abortController: AbortController | undefined = undefined;
@@ -35,6 +37,10 @@ export default class SchoolYearStore {
     
     setSchoolYears = (schoolYears: SchoolYears) => {
         this.schoolYears = schoolYears;
+    };
+    
+    setSchoolYearListOption = (schoolYearListOption: NumberList[]) => {
+        this.schoolYearListOption = schoolYearListOption;
     };
 
     loadSchoolYear = async (id: number): Promise<void> => {
@@ -66,6 +72,18 @@ export default class SchoolYearStore {
         }
     };
 
+    loadSchoolYearsOptionList = async (): Promise<void> => {
+        try {
+            this.createOrReplaceAbortController();
+            const users = await agent.SchoolYear.listOptions();
+            this.setSchoolYearListOption(users);
+        } catch (error) {
+            LogError(error);
+        } finally {
+            store.commonStore.setLoadingIndicator(false);
+        }
+    };
+            
     createSchoolYear = async (schoolYearFormValues: SchoolYearFormValues): Promise<boolean> => {
         try {
             this.createOrReplaceAbortController();
@@ -90,7 +108,6 @@ export default class SchoolYearStore {
         try {
             this.createOrReplaceAbortController();
             store.commonStore.setLoadingIndicator(true);
-            console.log(schoolYearFormValues);
             await agent.SchoolYear.update(schoolYearFormValues, this.abortController!.signal);
             return true;
         } catch (error) {

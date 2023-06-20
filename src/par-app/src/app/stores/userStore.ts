@@ -6,6 +6,7 @@ import agent from '../api/agent';
 import { LogError } from '../utils/logger';
 import { ApplicationUsers } from '../models/applicationUsers';
 import {ApplicationUser, ApplicationUserEditFormValues, ApplicationUserFormValues} from '../models/applicationUser';
+import {NumberList} from "../models/numberList";
 
 export default class UserStore {
     constructor() {
@@ -14,6 +15,7 @@ export default class UserStore {
 
     user: ApplicationUser | undefined = undefined;
     users: ApplicationUsers | undefined = undefined;
+    userOptionList: NumberList[] = [];
     pagination: GridPaginationModel = { page: 0, pageSize: GRID_CONSTANTS.DEFAULT_PAGE_SIZE };
     sortModel: GridSortModel | undefined = [{ field: 'id', sort: 'asc' }];
     abortController: AbortController | undefined = undefined;
@@ -41,6 +43,10 @@ export default class UserStore {
         this.users = user;
     };
 
+    setUserOptionList = (userOptionList: NumberList[]) => {
+        this.userOptionList = userOptionList;
+    };
+    
     loadUser = async (id: string): Promise<void> => {
         this.createOrReplaceAbortController();
         store.commonStore.setLoadingIndicator(true);
@@ -63,6 +69,18 @@ export default class UserStore {
             store.commonStore.setLoadingIndicator(true);
             const users = await agent.User.list(this.axiosParams, this.abortController!.signal);
             this.setUsers(users);
+        } catch (error) {
+            LogError(error);
+        } finally {
+            store.commonStore.setLoadingIndicator(false);
+        }
+    };
+    
+    loadUsersOptionList = async (): Promise<void> => {
+        try {
+            store.commonStore.setLoadingIndicator(true);
+            const users = await agent.User.listOptions();
+            this.setUserOptionList(users);
         } catch (error) {
             LogError(error);
         } finally {
